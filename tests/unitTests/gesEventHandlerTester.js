@@ -15,18 +15,14 @@ describe('gesEventHandlerBase', function() {
     var JSON;
 
     before(function(){
-        container = require('../testBootstrap');
-        var gesConnection = container.getInstanceOf('gesConnection');
-        if(_.isFunction(gesConnection.openConnection)) {
-            container.inject({name: 'gesConnection', resolvedInstance: gesConnection.openConnection()});
-            gesConnection = container.getInstanceOf('gesConnection');
-        }
-        TestHandler = container.getInstanceOf('TestEventHandler');
-        GesEvent = container.getInstanceOf('GesEvent');
-        uuid = container.getInstanceOf('uuid');
-        expectIdempotence = require('./mocks/expectIdempotenceMock')();
-        JSON = container.getInstanceOf('JSON');
-        mut = new TestHandler();
+        TestHandler = require('./mocks/TestEventHandler');
+        GesEvent = require('eventModels').GesEvent;
+        uuid = require('uuid');
+        JSON = require('JSON');
+        var eventStore = require('eventstore')({unitTest:true});
+        var readStore = require('readstorerepository')({unitTest:true});
+        var base = require('../../src/index')(eventStore, readStore);
+        mut = new TestHandler(base);
     });
     beforeEach(function(){
         mut.clearEventsHandled();
@@ -52,14 +48,7 @@ describe('gesEventHandlerBase', function() {
 
         context('when calling handler that throws an exception and notification on', function () {
             it('should send proper notification event', async function () {
-                var ges;
-                var gesConnection = container.getInstanceOf('gesConnection');
-                if(_.isFunction(gesConnection.openConnection)) {
-                    ges = {name: 'gesConnection', resolvedInstance: gesConnection.openConnection()};
-                    container.inject([{name:'expectIdempotence', resolvedInstance:expectIdempotence(true)},ges]);
-                }else {
-                    container.inject([{name: 'expectIdempotence', resolvedInstance: expectIdempotence(true)}]);
-                }
+
                 TestHandler = container.getInstanceOf('TestEventHandler');
                 mut = new TestHandler();
 
