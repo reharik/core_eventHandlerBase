@@ -2,9 +2,9 @@
  * Created by reharik on 8/13/15.
  */
 
-    var eventHandlerBase = require('eventHandlerBase');
+    var eventHandlerBase = require('./eventHandlerBase');
     var extend = require('extend');
-    var yowlWrapper = require('yowlWrapper');
+    var yowlWrapper = require('yowlwrapper');
 
     module.exports = function index(eventStore, readStoreRepository, _options) {
         var options = {
