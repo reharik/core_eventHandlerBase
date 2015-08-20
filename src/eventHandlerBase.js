@@ -2,10 +2,10 @@
  * Created by rharik on 6/18/15.
  */
 
-var eventModels = require('eventModels');
+var eventModels = require('eventmodels');
 
 module.exports = function(eventStore, readStoreRepository, logger, _options) {
-    return class gesEventHandler {
+    return class eventHandlerBase {
         constructor() {
             this.responseMessage;
             this.continuationId;
