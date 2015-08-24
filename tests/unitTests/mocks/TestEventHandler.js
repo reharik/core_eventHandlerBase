@@ -19,7 +19,6 @@ module.exports = function(gesEventHandlerBase) {
 
         someEventNotificationOn(vnt) {
            console.log('here');
-            this.createNotification(vnt);
             this.eventsHandled.push(vnt);
         }
 
@@ -28,7 +27,6 @@ module.exports = function(gesEventHandlerBase) {
         }
 
         someExceptionNotificationOn(vnt) {
-            this.createNotification(vnt);
             throw(new Error());
         }
         someExceptionNotificationOff(vnt) {
@@ -36,8 +34,6 @@ module.exports = function(gesEventHandlerBase) {
         }
 
         testingEventNotificationOn(vnt){
-            console.log("here");
-            this.createNotification(vnt);
             this.eventsHandled.push(vnt);
         }
 

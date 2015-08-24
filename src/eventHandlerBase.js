@@ -40,11 +40,10 @@ module.exports = function(eventStore, readStoreRepository, logger, _options) {
             } finally {
 
                 logger.trace('handleEvent | beginning to process responseMessage');
-
                 var responseEvent = eventModels.eventData(
                     this.responseMessage.eventName,
                     this.responseMessage.data,
-                    {"continuationId": this.continuationId,
+                    {"continuationId": this.responseMessage.continuationId,
                         "eventName":"notification",
                         "streamType":"notification"});
 
@@ -66,10 +65,10 @@ module.exports = function(eventStore, readStoreRepository, logger, _options) {
         }
 
         createNotification(gesEvent){
+            console.log(gesEvent);
             logger.debug('createNotification | building response notification');
-            this.responseMessage = eventModels.notificationEvent("Success", "Success", gesEvent);
-            this.continuationId = gesEvent.metadata.continuationId;
-            logger.trace('createNotification | getting continuation Id: ' + this.continuationId);
+            this.responseMessage = eventModels.notificationEvent("Success", "Success", gesEvent, gesEvent.metadata.continuationId);
+            logger.trace('createNotification | getting continuation Id: ' + this.responseMessage.continuationId);
         }
     }
 };

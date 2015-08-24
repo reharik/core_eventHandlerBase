@@ -26,7 +26,6 @@ describe('gesEventHandlerBase', function() {
     });
     beforeEach(function(){
         console.log(mut);
-
         mut.clearEventsHandled();
     });
 
@@ -51,7 +50,9 @@ describe('gesEventHandlerBase', function() {
 
                 var eventData =gesEvent.init('someExceptionNotificationOn',{'some':'data'},{eventTypeName:'someExceptionNotificationOn'});
                 var result = await mut.handleEvent(eventData);
-                JSON.parse(result.data.events[0].Data).notificationType.must.equal('Failure');
+                console.log("resultxxxxxxxxxxxxx");
+                console.log(result);
+                JSON.parse(result.events[0].Data).result.must.equal('Failure');
             })
         });
 
@@ -70,7 +71,7 @@ describe('gesEventHandlerBase', function() {
 
                 var eventData =gesEvent.init('someEventNotificationOn',{'some':'data'},{eventTypeName:'someEventNotificationOn'});
                 var result = await mut.handleEvent(eventData);
-                JSON.parse(result.data.events[0].Data).notificationType.must.equal('Success');
+                JSON.parse(result.events[0].Data).result.must.equal('Success');
             })
         });
 
@@ -86,6 +87,7 @@ describe('gesEventHandlerBase', function() {
 
         context('when calling handler that DOES NOT throws an exception', function () {
             it('should process event', async function () {
+                var eventData = gesEvent.init('someEventNotificationOff',{'some':'data'},{eventTypeName:'someEventNotificationOff'});
                 var result = await mut.handleEvent(eventData);
                 mut.eventsHandled.length.must.equal(1);
             });
@@ -95,13 +97,12 @@ describe('gesEventHandlerBase', function() {
                 var continuationId = uuid.v1();
                 var eventData =gesEvent.init('someEventNotificationOn',{'some':'data'},{eventTypeName:'someEventNotificationOn', continuationId:continuationId});
                 var result = await mut.handleEvent(eventData);
-
-                result.data.expectedVersion.must.equal(-2);
-                result.data.events[0].EventId.length.must.equal(36);
-                result.data.events[0].Type.must.equal('notificationEvent');
-                JSON.parse(result.data.events[0].Metadata).eventTypeName.must.equal('notificationEvent');
-                JSON.parse(result.data.events[0].Data).initialEvent.eventTypeName.must.equal('someEventNotificationOn');
-                JSON.parse(result.data.events[0].Metadata).continuationId.must.equal(continuationId);
+                result.expectedVersion.must.equal(-2);
+                result.events[0].EventId.length.must.equal(36);
+                result.events[0].Type.must.equal('notification');
+                JSON.parse(result.events[0].Metadata).eventName.must.equal('notification');
+                JSON.parse(result.events[0].Data).initialEvent.eventName.must.equal('someEventNotificationOn');
+                JSON.parse(result.events[0].Metadata).continuationId.must.equal(continuationId);
             })
         });
     });
