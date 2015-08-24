@@ -1,5 +1,5 @@
 --require must
---require ./../babelhook
+--require babelhook
 --reporter spec
 --ui bdd
 --recursive

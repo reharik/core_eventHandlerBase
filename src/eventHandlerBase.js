@@ -69,7 +69,7 @@ module.exports = function(eventStore, readStoreRepository, logger, _options) {
             logger.debug('createNotification | building response notification');
             this.responseMessage = eventModels.notificationEvent("Success", "Success", gesEvent);
             this.continuationId = gesEvent.metadata.continuationId;
-            logger.trace('createNotification |getting continuation Id: ' + this.continuationId);
+            logger.trace('createNotification | getting continuation Id: ' + this.continuationId);
         }
-    };
+    }
 };
