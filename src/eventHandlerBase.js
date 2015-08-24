@@ -34,7 +34,7 @@ module.exports = function(eventStore, readStoreRepository, logger, _options) {
             } catch (exception) {
                 logger.error('event: ' + JSON.stringify(gesEvent) + ' threw exception: ' + exception);
                 if (this.responseMessage) {
-                    this.responseMessage = new Notification("Failure", exception.message, gesEvent);
+                    this.responseMessage = eventModels.notification("Failure", exception.message, gesEvent);
                 }
             } finally {
                 if (this.responseMessage) {
@@ -45,7 +45,7 @@ module.exports = function(eventStore, readStoreRepository, logger, _options) {
                         this.responseMessage.data,
                         {"continuationId": this.continuationId,
                             "eventName":"notification",
-                        "streamType":"notification"});
+                            "streamType":"notification"});
 
                     logger.debug('response event created: ' + JSON.stringify(responseEvent));
 
@@ -67,9 +67,9 @@ module.exports = function(eventStore, readStoreRepository, logger, _options) {
         createNotification(gesEvent){
             logger.debug('building response notification');
 
-            this.responseMessage = new Notification("Success", "Success", gesEvent);
+            this.responseMessage = eventModels.otification("Success", "Success", gesEvent);
             this.continuationId = gesEvent.metadata.continuationId;
             logger.trace('getting continuation Id: ' + this.continuationId);
         }
-    };
+    }
 };
