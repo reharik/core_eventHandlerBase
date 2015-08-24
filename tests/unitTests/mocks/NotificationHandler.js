@@ -19,5 +19,5 @@ module.exports = function(gesEventHandlerBase) {
         clearEventsHandled() {
             this.eventsHandled = [];
         }
-    };
+    }
 };
