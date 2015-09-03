@@ -1,7 +1,7 @@
 plugin:
  build: .
  volumes:
-  - .:/opt/app/current
+  - .:/home/app/current
  command: npm test
  environment:
   DEBUG: true

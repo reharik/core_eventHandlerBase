@@ -6,12 +6,7 @@
   "homepage": "https://github.com/reharik/core_eventHandlerBase#readme",
   "main": "src/index.js",
   "scripts": {
-    "start": "babel-node --harmony src/index.js --stage 0",
-    "test": "mocha --opts tests/mocha.opts tests/unitTests",
-    "testSpecific": "mocha --opts tests/mocha.opts ",
-    "testDebug": "node-debug _mocha --timeout 15000 --opts tests/mocha.opts unitTests",
-    "intTest": "mocha --opts integrationTests/mocha.opts --opts tests/mocha.opts",
-    "intTestSpecific": "mocha --opts tests/mocha.opts "
+    "test": "mocha --require ./babelhook --opts ./tests/mocha.opts ./tests/unitTests/*.js"
   },
 "bugs": {
     "url": "https://github.com/reharik/core_eventHandlerBase/issues"

@@ -1,8 +1,5 @@
---require must
---require babelhook
 --reporter spec
 --ui bdd
 --recursive
---compilers js:babel/register
 --watch
 --debug
