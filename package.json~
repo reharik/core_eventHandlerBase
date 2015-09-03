@@ -1,9 +1,6 @@
 {
   "name": "eventhandlerbase",
   "version": "0.0.1",
-  "private": false,
-  "description": "core_eventHandlerBase",
-  "homepage": "https://github.com/reharik/core_eventHandlerBase#readme",
   "main": "src/index.js",
   "scripts": {
     "start": "babel-node --harmony src/index.js --stage 0",
@@ -13,16 +10,6 @@
     "intTest": "mocha --opts integrationTests/mocha.opts --opts tests/mocha.opts",
     "intTestSpecific": "mocha --opts tests/mocha.opts "
   },
-"bugs": {
-    "url": "https://github.com/reharik/core_eventHandlerBase/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/reharik/core_eventHandlerBase.git"
-  },
-  "keywords": [
-  ],
-  "author": "Raif Harik",
   "license": "MIT",
   "node": ">=0.12.0",
   "dependencies": {

@@ -4,3 +4,5 @@
 --ui bdd
 --recursive
 --compilers js:babel/register
+--watch
+--debug

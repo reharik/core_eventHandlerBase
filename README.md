@@ -1,0 +1,2 @@
+#core_eventHandlerBase
+Your plugin description
