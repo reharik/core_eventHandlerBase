@@ -27,6 +27,5 @@ WORKDIR $PLUGIN_HOME
 ADD ./package.json $PLUGIN_HOME/package.json
 
 RUN npm install
-#RUN mv node_modules ../
 
 ADD . $PLUGIN_HOME
