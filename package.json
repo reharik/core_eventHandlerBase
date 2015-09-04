@@ -4,7 +4,7 @@
   "private": false,
   "description": "core_eventHandlerBase",
   "homepage": "https://github.com/reharik/core_eventHandlerBase#readme",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
     "test": "mocha --require ./babelhook --opts ./tests/mocha.opts ./tests/unitTests/*.js"
   },
@@ -22,8 +22,10 @@
   "node": ">=0.12.0",
   "dependencies": {
     "extend": "^3.0.0",
-    "yowlwrapper": "git+https://github.com/reharik/core_yowlWrapper.git",
-    "eventmodels": "git+https://github.com/reharik/core_eventModels.git"
+    "corelogger": "git+https://github.com/reharik/core_logger.git",
+    "eventmodels": "git+https://github.com/reharik/core_eventModels.git",
+    "readstorerepository": "git+https://github.com/reharik/core_readStoreRepository.git",
+    "eventstore": "git+https://github.com/reharik/core_eventStore.git"
   },
   "devDependencies": {
     "JSON": "^1.0.0",
@@ -35,8 +37,6 @@
     "mocha": "^2.2.5",
     "mochawait": "^2.0.1",
     "must": "^0.12.0",
-    "uuid": "^2.0.1",
-    "readstorerepository": "git+https://github.com/reharik/core_readStoreRepository.git",
-    "eventstore": "git+https://github.com/reharik/core_eventStore.git"
+    "uuid": "^2.0.1"
   }
 }

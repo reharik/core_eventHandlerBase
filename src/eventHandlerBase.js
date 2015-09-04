@@ -2,9 +2,7 @@
  * Created by rharik on 6/18/15.
  */
 
-var eventModels = require('eventmodels')();
-
-module.exports = function(eventStore, readStoreRepository, logger, _options) {
+module.exports = function(eventstore, readstorerepository, eventmodels, logger) {
     return class eventHandlerBase {
         constructor() {
             this.responseMessage;
