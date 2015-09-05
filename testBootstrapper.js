@@ -9,7 +9,9 @@ module.exports = function(_options) {
     return new container(x=>
         x.pathToRoot(__dirname)
             .requireDirectoryRecursively('./src')
+            .requireDirectoryRecursively('./tests/unitTests/mocks')
             .for('bluebird').renameTo('Promise')
-            .for('corelogger').renameTo('logger').instanciate(i=>i.asFunc().withParameters(options.logger || {}))
+            .for('corelogger').renameTo('logger').instantiate(i=>i.asFunc().withParameters(options.logger || {}))
+            .for('eventmodels').instantiate(i=>i.asFunc())
             .complete());
 };

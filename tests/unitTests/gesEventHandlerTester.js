@@ -7,23 +7,23 @@ var demand = require('must');
 describe('gesEventHandlerBase', function() {
     var mut;
     var TestHandler;
-    var gesEvent;
+    var eventmodels;
     var uuid;
-    var expectIdempotence;
-    var container;
     var JSON;
-
+    var options = {
+        logger: {
+            moduleName: 'EventHandlerBase'
+        }
+    };
+    var container = require('../../testBootstrapper')(options);
     before(function(){
-        TestHandler = require('./mocks/TestEventHandler');
-        gesEvent = require('eventmodels')().gesEvent;
-        uuid = require('uuid');
-        JSON = require('JSON');
-        var eventStore = require('eventstore')({unitTest:true});
-        var readStore = require('readstorerepository')({unitTest:true});
-        var base = require('../../src/index')(eventStore, readStore);
-        var _mut = TestHandler(base);
-        mut = new _mut();
+        TestHandler = container.getInstanceOf('TestEventHandler');
+        eventmodels = container.getInstanceOf('eventmodels');
+        uuid = container.getInstanceOf('uuid');
+        JSON = container.getInstanceOf('JSON');
+        mut = new TestHandler();
     });
+
     beforeEach(function(){
         console.log(mut);
         mut.clearEventsHandled();
@@ -36,11 +36,13 @@ describe('gesEventHandlerBase', function() {
                 mut.eventsHandled.length.must.equal(0);
             })
         });
+
         context('when calling handler that throws an exception', function () {
             it('should not process event', async function () {
-
-                var eventData = gesEvent.init('someExceptionNotificationOff',{'some':'data'},{eventTypeName:'someExceptionNotificationOff'});
+                var eventData = eventmodels.gesEvent.init('someExceptionNotificationOff',{'some':'data'},{eventTypeName:'someExceptionNotificationOff'});
                 var result = await mut.handleEvent(eventData);
+                console.log('eventmodelsxxxxxxxxxxxxxx');
+                console.log(eventmodels);
                 mut.eventsHandled.length.must.equal(0);
             })
         });

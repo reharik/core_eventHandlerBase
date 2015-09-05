@@ -1,0 +1,572 @@
+
+> eventhandlerbase@0.0.1 test /home/parallels/Development/methodfitness/core_eventHandlerBase
+> mocha --require ./babelhook --opts ./tests/mocha.opts ./tests/unitTests/*.js
+
+
+[?25l[info] message: added Console Sink | 2:08:47 pm
+[trace] message: RegistryDSL | pathToRoot: setting path to root: /home/parallels/Development/methodfitness/core_eventHandlerBase | 2:08:47 pm
+[trace] message: RegistryDSL | pathToRoot: checking to see if package exists using abspath: /home/parallels/Development/methodfitness/core_eventHandlerBase/package.json | 2:08:47 pm
+[trace] message: RegistryDSL | requireDirectoryRecursively: closing in process declarations and renames | 2:08:47 pm
+[trace] message: RegistryDSL | recurseDirectories: looping through /home/parallels/Development/methodfitness/core_eventHandlerBase/src | 2:08:47 pm
+[trace] message: RegistryDSL | processFile: creating dependency object | 2:08:47 pm
+[trace] message: Graph | normalizeName: normalizing name: eventHandlerBase->eventHandlerBase | 2:08:47 pm
+[trace] message: RegistryDSL | processFile: properties -eventHandlerBase -/src/eventHandlerBase -undefined | 2:08:47 pm
+[trace] message: Dependency | constructor: Intialized with following properties: {"name":"eventHandlerBase","path":"/src/eventHandlerBase","internal":true,"groupName":""} | 2:08:47 pm
+[trace] message: Dependency | handleInternalDependency: internal module so requiring item using path. no need to wrap in function  | 2:08:47 pm
+[trace] message: RegistryDSL | processFile: creating dependency object | 2:08:47 pm
+[trace] message: Graph | normalizeName: normalizing name: plugin->plugin | 2:08:47 pm
+[trace] message: RegistryDSL | processFile: properties -plugin -/src/plugin -undefined | 2:08:47 pm
+[trace] message: Dependency | constructor: Intialized with following properties: {"name":"plugin","path":"/src/plugin","internal":true,"groupName":""} | 2:08:47 pm
+[trace] message: Dependency | handleInternalDependency: internal module so requiring item using path. no need to wrap in function  | 2:08:47 pm
+[trace] message: RegistryDSL | requireDirectoryRecursively: closing in process declarations and renames | 2:08:47 pm
+[trace] message: RegistryDSL | recurseDirectories: looping through /home/parallels/Development/methodfitness/core_eventHandlerBase/tests/unitTests/mocks | 2:08:47 pm
+[trace] message: RegistryDSL | processFile: creating dependency object | 2:08:47 pm
+[trace] message: Graph | normalizeName: normalizing name: NotificationHandler->NotificationHandler | 2:08:47 pm
+[trace] message: RegistryDSL | processFile: properties -NotificationHandler -/tests/unitTests/mocks/NotificationHandler -undefined | 2:08:47 pm
+[trace] message: Dependency | constructor: Intialized with following properties: {"name":"NotificationHandler","path":"/tests/unitTests/mocks/NotificationHandler","internal":true,"groupName":""} | 2:08:47 pm
+[trace] message: Dependency | handleInternalDependency: internal module so requiring item using path. no need to wrap in function  | 2:08:47 pm
+[trace] message: RegistryDSL | processFile: creating dependency object | 2:08:47 pm
+[trace] message: Graph | normalizeName: normalizing name: SubscriptionMock->SubscriptionMock | 2:08:47 pm
+[trace] message: RegistryDSL | processFile: properties -SubscriptionMock -/tests/unitTests/mocks/SubscriptionMock -undefined | 2:08:47 pm
+[trace] message: Dependency | constructor: Intialized with following properties: {"name":"SubscriptionMock","path":"/tests/unitTests/mocks/SubscriptionMock","internal":true,"groupName":""} | 2:08:47 pm
+[trace] message: Dependency | handleInternalDependency: internal module so requiring item using path. no need to wrap in function  | 2:08:47 pm
+[trace] message: RegistryDSL | processFile: creating dependency object | 2:08:47 pm
+[trace] message: Graph | normalizeName: normalizing name: TestEventHandler->TestEventHandler | 2:08:47 pm
+[trace] message: RegistryDSL | processFile: properties -TestEventHandler -/tests/unitTests/mocks/TestEventHandler -undefined | 2:08:47 pm
+[trace] message: Dependency | constructor: Intialized with following properties: {"name":"TestEventHandler","path":"/tests/unitTests/mocks/TestEventHandler","internal":true,"groupName":""} | 2:08:47 pm
+[trace] message: Dependency | handleInternalDependency: internal module so requiring item using path. no need to wrap in function  | 2:08:47 pm
+[trace] message: RegistryDSL | rename: closing in process declarations and renames | 2:08:47 pm
+[trace] message: RegistryDSL | rename: starting new rename | 2:08:47 pm
+[trace] message: RegistryDSL | withThis: completing rename | 2:08:47 pm
+[trace] message: RegistryDSL | rename: closing in process declarations and renames | 2:08:47 pm
+[trace] message: RegistryDSL | rename: starting new rename | 2:08:47 pm
+[trace] message: RegistryDSL | withThis: completing rename | 2:08:47 pm
+[trace] message: RegistryDSL | for: closing in process declarations and renames | 2:08:47 pm
+[trace] message: RegistryDSL | for: beginning new dependency declaration  | 2:08:47 pm
+[trace] message: RegistryDSL | instantiate: building new instantiationDSL func | 2:08:47 pm
+[trace] message: InstantiateDSL | asFunc | 2:08:47 pm
+[trace] message: InstantiateDSL | withParameters: putting parameters in array form if not or if object specified | 2:08:47 pm
+[trace] message: Dependency | constructor: Intialized with following properties: {"name":"logger","path":"logger","internal":false,"groupName":"","instantiate":{"dependencyType":"func","parameters":[{"moduleName":"EventHandlerBase"}]}} | 2:08:47 pm
+[trace] message: Dependency | handleExternalModule: external module logger so requiring item using path logger and wrapping in function  | 2:08:47 pm
+[trace] message: Container | buildRegistry: pathToPackageJson: /home/parallels/Development/methodfitness/core_eventHandlerBase/package.json | 2:08:47 pm
+[trace] message: Container | buildRegistry: dependencyDeclarations: "/home/parallels/Development/methodfitness/core_eventHandlerBase/package.json" | 2:08:47 pm
+[trace] message: Container | buildRegistry: renamedDeclarations: [{"oldName":"bluebird","name":"Promise"},{"oldName":"corelogger","name":"logger"}] | 2:08:47 pm
+[trace] message: Container | buildRegistry: registry: {"pathToRoot":"","dependencyDeclarations":[{"name":"eventHandlerBase","path":"/src/eventHandlerBase","internal":true,"groupName":""},{"name":"plugin","path":"/src/plugin","internal":true,"groupName":""},{"name":"NotificationHandler","path":"/tests/unitTests/mocks/NotificationHandler","internal":true,"groupName":""},{"name":"SubscriptionMock","path":"/tests/unitTests/mocks/SubscriptionMock","internal":true,"groupName":""},{"name":"TestEventHandler","path":"/tests/unitTests/mocks/TestEventHandler","internal":true,"groupName":""},{"name":"logger","path":"logger","internal":false,"groupName":"","instantiate":{"dependencyType":"func","parameters":[{"moduleName":"EventHandlerBase"}]}}],"renamedDeclarations":[{"oldName":"bluebird","name":"Promise"},{"oldName":"corelogger","name":"logger"}],"pathToPackageJson":"/home/parallels/Development/methodfitness/core_eventHandlerBase/package.json"} | 2:08:47 pm
+[trace] message: Container | constructor : instantiate new graph | 2:08:47 pm
+[trace] message: Container | constructor : get package.json | 2:08:47 pm
+[trace] message: Container | constructor : build new graph | 2:08:47 pm
+[trace] message: Graph | buildGraph: reading package.json dependencies | 2:08:47 pm
+[trace] message: Graph | normalizeName: normalizing name: corelogger->corelogger | 2:08:47 pm
+[trace] message: Dependency | constructor: Intialized with following properties: {"name":"corelogger","path":"corelogger","internal":false,"groupName":""} | 2:08:47 pm
+[trace] message: Dependency | handleExternalModule: external module corelogger so requiring item using path corelogger and wrapping in function  | 2:08:47 pm
+[trace] message: Graph | normalizeName: normalizing name: dagon->dagon | 2:08:47 pm
+[trace] message: Dependency | constructor: Intialized with following properties: {"name":"dagon","path":"dagon","internal":false,"groupName":""} | 2:08:47 pm
+[trace] message: Dependency | handleExternalModule: external module dagon so requiring item using path dagon and wrapping in function  | 2:08:47 pm
+[trace] message: Graph | normalizeName: normalizing name: eventmodels->eventmodels | 2:08:47 pm
+[trace] message: Dependency | constructor: Intialized with following properties: {"name":"eventmodels","path":"eventmodels","internal":false,"groupName":""} | 2:08:47 pm
+[trace] message: Dependency | handleExternalModule: external module eventmodels so requiring item using path eventmodels and wrapping in function  | 2:08:47 pm
+[trace] message: Graph | normalizeName: normalizing name: eventstore->eventstore | 2:08:47 pm
+[trace] message: Dependency | constructor: Intialized with following properties: {"name":"eventstore","path":"eventstore","internal":false,"groupName":""} | 2:08:47 pm
+[trace] message: Dependency | handleExternalModule: external module eventstore so requiring item using path eventstore and wrapping in function  | 2:08:47 pm
+[trace] message: Graph | normalizeName: normalizing name: extend->extend | 2:08:47 pm
+[trace] message: Dependency | constructor: Intialized with following properties: {"name":"extend","path":"extend","internal":false,"groupName":""} | 2:08:47 pm
+[trace] message: Dependency | handleExternalModule: external module extend so requiring item using path extend and wrapping in function  | 2:08:47 pm
+[trace] message: Graph | normalizeName: normalizing name: readstorerepository->readstorerepository | 2:08:47 pm
+[trace] message: Dependency | constructor: Intialized with following properties: {"name":"readstorerepository","path":"readstorerepository","internal":false,"groupName":""} | 2:08:47 pm
+[trace] message: Dependency | handleExternalModule: external module readstorerepository so requiring item using path readstorerepository and wrapping in function  | 2:08:47 pm
+[trace] message: Container | constructor : apply registry | 2:08:47 pm
+[trace] message: Graph | addItem: remove original if present | 2:08:47 pm
+[trace] message: Graph | addItem: add new item | 2:08:47 pm
+[trace] message: Graph | addItem: remove original if present | 2:08:47 pm
+[trace] message: Graph | addItem: add new item | 2:08:47 pm
+[trace] message: Graph | addItem: remove original if present | 2:08:47 pm
+[trace] message: Graph | addItem: add new item | 2:08:47 pm
+[trace] message: Graph | addItem: remove original if present | 2:08:47 pm
+[trace] message: Graph | addItem: add new item | 2:08:47 pm
+[trace] message: Graph | addItem: remove original if present | 2:08:47 pm
+[trace] message: Graph | addItem: add new item | 2:08:47 pm
+[trace] message: Graph | addItem: remove original if present | 2:08:47 pm
+[trace] message: Graph | addItem: add new item | 2:08:47 pm
+[trace] message: Graph | findItem: bluebird target :corelogger | 2:08:47 pm
+[trace] message: Graph | findItem: bluebird target :dagon | 2:08:47 pm
+[trace] message: Graph | findItem: bluebird target :eventmodels | 2:08:47 pm
+[trace] message: Graph | findItem: bluebird target :eventstore | 2:08:47 pm
+[trace] message: Graph | findItem: bluebird target :extend | 2:08:47 pm
+[trace] message: Graph | findItem: bluebird target :readstorerepository | 2:08:47 pm
+[trace] message: Graph | findItem: bluebird target :eventHandlerBase | 2:08:47 pm
+[trace] message: Graph | findItem: bluebird target :plugin | 2:08:47 pm
+[trace] message: Graph | findItem: bluebird target :NotificationHandler | 2:08:47 pm
+[trace] message: Graph | findItem: bluebird target :SubscriptionMock | 2:08:47 pm
+[trace] message: Graph | findItem: bluebird target :TestEventHandler | 2:08:47 pm
+[trace] message: Graph | findItem: bluebird target :logger | 2:08:47 pm
+[trace] message: Graph | findItem: item NOT found, trying to require(dep) | 2:08:47 pm
+[trace] message: Graph | findItem: require found item | 2:08:47 pm
+[trace] message: Graph | findItem: adding it to graph | 2:08:47 pm
+[trace] message: Dependency | constructor: Intialized with following properties: {"name":"bluebird","internal":false,"groupName":""} | 2:08:47 pm
+[trace] message: Dependency | handleResolvedInstancePassedIn: reoslved instance passed so wrapping resolved instance in function | 2:08:47 pm
+{ name: 'Promise',
+  path: undefined,
+  internal: false,
+  groupName: '',
+  resolvedInstance: 
+   { [Function: Promise]
+     TypeError: [Function: TypeError],
+     RangeError: [Function: RangeError],
+     CancellationError: [Function: SubError],
+     TimeoutError: [Function: SubError],
+     OperationalError: [Function: OperationalError],
+     RejectionError: [Function: OperationalError],
+     AggregateError: [Function: SubError],
+     onPossiblyUnhandledRejection: [Function],
+     onUnhandledRejectionHandled: [Function],
+     longStackTraces: [Function],
+     hasLongStackTraces: [Function],
+     is: [Function],
+     fromNode: [Function],
+     all: [Function],
+     pending: [Function],
+     defer: [Function],
+     cast: [Function],
+     fulfilled: [Function],
+     resolve: [Function],
+     rejected: [Function],
+     reject: [Function],
+     setScheduler: [Function],
+     method: [Function],
+     try: [Function],
+     attempt: [Function],
+     bind: [Function],
+     PromiseInspection: [Function: PromiseInspection],
+     join: [Function],
+     Promise: [Circular],
+     map: [Function],
+     using: [Function],
+     coroutine: { [Function] addYieldHandler: [Function] },
+     spawn: [Function],
+     props: [Function],
+     race: [Function],
+     reduce: [Function],
+     settle: [Function],
+     some: [Function],
+     _SomePromiseArray: [Function: SomePromiseArray],
+     promisify: [Function],
+     promisifyAll: [Function],
+     any: [Function],
+     each: [Function],
+     delay: [Function],
+     filter: [Function],
+     noConflict: [Function: noConflict] },
+  instantiate: undefined,
+  wrappedInstance: [Function] }
+[trace] message: Graph | findItem: corelogger target :corelogger | 2:08:47 pm
+[trace] message: Graph | findItem: item found | 2:08:47 pm
+{ name: 'logger',
+  path: 'corelogger',
+  internal: false,
+  groupName: '',
+  resolvedInstance: undefined,
+  instantiate: undefined,
+  wrappedInstance: [Function] }
+[trace] message: Container | constructor : resolve graph | 2:08:47 pm
+[trace] message: GraphResolver | recurse: beginning recursion | 2:08:47 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:47 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:47 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:47 pm
+[trace] message: Dependency | getCollectionOfDependencies: calling getResolvedInstanceForCollectionOfDependencies | 2:08:47 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:47 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:47 pm
+[trace] message: Dependency | getResolvedInstanceForCollectionOfDependencies: getting resolved instances recursively | 2:08:47 pm
+[trace] message: Dependency | instantiate: actually resolving instances | 2:08:47 pm
+[trace] message: Dependency | instantiate: if no dependencies just call wrappedInstance, otherwise apply function with dependencies | 2:08:47 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: calling getResolvedInstanceForCollectionOfDependencies | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | getResolvedInstanceForCollectionOfDependencies: getting resolved instances recursively | 2:08:48 pm
+[trace] message: Dependency | instantiate: actually resolving instances | 2:08:48 pm
+[trace] message: Dependency | instantiate: if no dependencies just call wrappedInstance, otherwise apply function with dependencies | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: calling getResolvedInstanceForCollectionOfDependencies | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | getResolvedInstanceForCollectionOfDependencies: getting resolved instances recursively | 2:08:48 pm
+[trace] message: Dependency | instantiate: actually resolving instances | 2:08:48 pm
+[trace] message: Dependency | instantiate: if no dependencies just call wrappedInstance, otherwise apply function with dependencies | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: calling getResolvedInstanceForCollectionOfDependencies | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | getResolvedInstanceForCollectionOfDependencies: getting resolved instances recursively | 2:08:48 pm
+[trace] message: Dependency | instantiate: actually resolving instances | 2:08:48 pm
+[trace] message: Dependency | instantiate: if no dependencies just call wrappedInstance, otherwise apply function with dependencies | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: calling getResolvedInstanceForCollectionOfDependencies | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | getResolvedInstanceForCollectionOfDependencies: getting resolved instances recursively | 2:08:48 pm
+[trace] message: Dependency | instantiate: actually resolving instances | 2:08:48 pm
+[trace] message: Dependency | instantiate: if no dependencies just call wrappedInstance, otherwise apply function with dependencies | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: calling getResolvedInstanceForCollectionOfDependencies | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | getResolvedInstanceForCollectionOfDependencies: getting resolved instances recursively | 2:08:48 pm
+[trace] message: Dependency | instantiate: actually resolving instances | 2:08:48 pm
+[trace] message: Dependency | instantiate: if no dependencies just call wrappedInstance, otherwise apply function with dependencies | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args: eventstore,readstorerepository,eventmodels,logger | 2:08:48 pm
+[trace] message: Graph | findItem: eventstore target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: eventstore target :dagon | 2:08:48 pm
+[trace] message: Graph | findItem: eventstore target :eventmodels | 2:08:48 pm
+[trace] message: Graph | findItem: eventstore target :eventstore | 2:08:48 pm
+[trace] message: Graph | findItem: item found | 2:08:48 pm
+[trace] message: Graph | findItem: readstorerepository target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: readstorerepository target :dagon | 2:08:48 pm
+[trace] message: Graph | findItem: readstorerepository target :eventmodels | 2:08:48 pm
+[trace] message: Graph | findItem: readstorerepository target :eventstore | 2:08:48 pm
+[trace] message: Graph | findItem: readstorerepository target :extend | 2:08:48 pm
+[trace] message: Graph | findItem: readstorerepository target :readstorerepository | 2:08:48 pm
+[trace] message: Graph | findItem: item found | 2:08:48 pm
+[trace] message: Graph | findItem: eventmodels target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: eventmodels target :dagon | 2:08:48 pm
+[trace] message: Graph | findItem: eventmodels target :eventmodels | 2:08:48 pm
+[trace] message: Graph | findItem: item found | 2:08:48 pm
+[trace] message: Graph | findItem: logger target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: item found | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: calling getResolvedInstanceForCollectionOfDependencies | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args: eventstore,readstorerepository,eventmodels,logger | 2:08:48 pm
+[trace] message: Graph | findItem: eventstore target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: eventstore target :dagon | 2:08:48 pm
+[trace] message: Graph | findItem: eventstore target :eventmodels | 2:08:48 pm
+[trace] message: Graph | findItem: eventstore target :eventstore | 2:08:48 pm
+[trace] message: Graph | findItem: item found | 2:08:48 pm
+[trace] message: Graph | findItem: readstorerepository target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: readstorerepository target :dagon | 2:08:48 pm
+[trace] message: Graph | findItem: readstorerepository target :eventmodels | 2:08:48 pm
+[trace] message: Graph | findItem: readstorerepository target :eventstore | 2:08:48 pm
+[trace] message: Graph | findItem: readstorerepository target :extend | 2:08:48 pm
+[trace] message: Graph | findItem: readstorerepository target :readstorerepository | 2:08:48 pm
+[trace] message: Graph | findItem: item found | 2:08:48 pm
+[trace] message: Graph | findItem: eventmodels target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: eventmodels target :dagon | 2:08:48 pm
+[trace] message: Graph | findItem: eventmodels target :eventmodels | 2:08:48 pm
+[trace] message: Graph | findItem: item found | 2:08:48 pm
+[trace] message: Graph | findItem: logger target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: item found | 2:08:48 pm
+[trace] message: Dependency | getResolvedInstanceForCollectionOfDependencies: getting resolved instances recursively | 2:08:48 pm
+[trace] message: Dependency | instantiate: actually resolving instances | 2:08:48 pm
+[trace] message: Dependency | instantiate: if no dependencies just call wrappedInstance, otherwise apply function with dependencies | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args: eventHandlerBase,extend,logger | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :dagon | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :eventmodels | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :eventstore | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :extend | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :readstorerepository | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :eventHandlerBase | 2:08:48 pm
+[trace] message: Graph | findItem: item found | 2:08:48 pm
+[trace] message: Graph | findItem: extend target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: extend target :dagon | 2:08:48 pm
+[trace] message: Graph | findItem: extend target :eventmodels | 2:08:48 pm
+[trace] message: Graph | findItem: extend target :eventstore | 2:08:48 pm
+[trace] message: Graph | findItem: extend target :extend | 2:08:48 pm
+[trace] message: Graph | findItem: item found | 2:08:48 pm
+[trace] message: Graph | findItem: logger target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: item found | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args: eventstore,readstorerepository,eventmodels,logger | 2:08:48 pm
+[trace] message: Graph | findItem: eventstore target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: eventstore target :dagon | 2:08:48 pm
+[trace] message: Graph | findItem: eventstore target :eventmodels | 2:08:48 pm
+[trace] message: Graph | findItem: eventstore target :eventstore | 2:08:48 pm
+[trace] message: Graph | findItem: item found | 2:08:48 pm
+[trace] message: Graph | findItem: readstorerepository target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: readstorerepository target :dagon | 2:08:48 pm
+[trace] message: Graph | findItem: readstorerepository target :eventmodels | 2:08:48 pm
+[trace] message: Graph | findItem: readstorerepository target :eventstore | 2:08:48 pm
+[trace] message: Graph | findItem: readstorerepository target :extend | 2:08:48 pm
+[trace] message: Graph | findItem: readstorerepository target :readstorerepository | 2:08:48 pm
+[trace] message: Graph | findItem: item found | 2:08:48 pm
+[trace] message: Graph | findItem: eventmodels target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: eventmodels target :dagon | 2:08:48 pm
+[trace] message: Graph | findItem: eventmodels target :eventmodels | 2:08:48 pm
+[trace] message: Graph | findItem: item found | 2:08:48 pm
+[trace] message: Graph | findItem: logger target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: item found | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: calling getResolvedInstanceForCollectionOfDependencies | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args: eventHandlerBase,extend,logger | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :dagon | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :eventmodels | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :eventstore | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :extend | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :readstorerepository | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :eventHandlerBase | 2:08:48 pm
+[trace] message: Graph | findItem: item found | 2:08:48 pm
+[trace] message: Graph | findItem: extend target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: extend target :dagon | 2:08:48 pm
+[trace] message: Graph | findItem: extend target :eventmodels | 2:08:48 pm
+[trace] message: Graph | findItem: extend target :eventstore | 2:08:48 pm
+[trace] message: Graph | findItem: extend target :extend | 2:08:48 pm
+[trace] message: Graph | findItem: item found | 2:08:48 pm
+[trace] message: Graph | findItem: logger target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: item found | 2:08:48 pm
+[trace] message: Dependency | getResolvedInstanceForCollectionOfDependencies: getting resolved instances recursively | 2:08:48 pm
+[trace] message: Dependency | instantiate: actually resolving instances | 2:08:48 pm
+[trace] message: Dependency | instantiate: if no dependencies just call wrappedInstance, otherwise apply function with dependencies | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args: eventHandlerBase | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :dagon | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :eventmodels | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :eventstore | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :extend | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :readstorerepository | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :eventHandlerBase | 2:08:48 pm
+[trace] message: Graph | findItem: item found | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args: eventstore,readstorerepository,eventmodels,logger | 2:08:48 pm
+[trace] message: Graph | findItem: eventstore target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: eventstore target :dagon | 2:08:48 pm
+[trace] message: Graph | findItem: eventstore target :eventmodels | 2:08:48 pm
+[trace] message: Graph | findItem: eventstore target :eventstore | 2:08:48 pm
+[trace] message: Graph | findItem: item found | 2:08:48 pm
+[trace] message: Graph | findItem: readstorerepository target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: readstorerepository target :dagon | 2:08:48 pm
+[trace] message: Graph | findItem: readstorerepository target :eventmodels | 2:08:48 pm
+[trace] message: Graph | findItem: readstorerepository target :eventstore | 2:08:48 pm
+[trace] message: Graph | findItem: readstorerepository target :extend | 2:08:48 pm
+[trace] message: Graph | findItem: readstorerepository target :readstorerepository | 2:08:48 pm
+[trace] message: Graph | findItem: item found | 2:08:48 pm
+[trace] message: Graph | findItem: eventmodels target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: eventmodels target :dagon | 2:08:48 pm
+[trace] message: Graph | findItem: eventmodels target :eventmodels | 2:08:48 pm
+[trace] message: Graph | findItem: item found | 2:08:48 pm
+[trace] message: Graph | findItem: logger target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: item found | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: calling getResolvedInstanceForCollectionOfDependencies | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args: eventHandlerBase | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :dagon | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :eventmodels | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :eventstore | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :extend | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :readstorerepository | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :eventHandlerBase | 2:08:48 pm
+[trace] message: Graph | findItem: item found | 2:08:48 pm
+[trace] message: Dependency | getResolvedInstanceForCollectionOfDependencies: getting resolved instances recursively | 2:08:48 pm
+[trace] message: Dependency | instantiate: actually resolving instances | 2:08:48 pm
+[trace] message: Dependency | instantiate: if no dependencies just call wrappedInstance, otherwise apply function with dependencies | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args: events | 2:08:48 pm
+[trace] message: Graph | findItem: events target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: events target :dagon | 2:08:48 pm
+[trace] message: Graph | findItem: events target :eventmodels | 2:08:48 pm
+[trace] message: Graph | findItem: events target :eventstore | 2:08:48 pm
+[trace] message: Graph | findItem: events target :extend | 2:08:48 pm
+[trace] message: Graph | findItem: events target :readstorerepository | 2:08:48 pm
+[trace] message: Graph | findItem: events target :eventHandlerBase | 2:08:48 pm
+[trace] message: Graph | findItem: events target :plugin | 2:08:48 pm
+[trace] message: Graph | findItem: events target :NotificationHandler | 2:08:48 pm
+[trace] message: Graph | findItem: events target :SubscriptionMock | 2:08:48 pm
+[trace] message: Graph | findItem: events target :TestEventHandler | 2:08:48 pm
+[trace] message: Graph | findItem: events target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: item NOT found, trying to require(dep) | 2:08:48 pm
+[trace] message: Graph | findItem: require found item | 2:08:48 pm
+[trace] message: Graph | findItem: adding it to graph | 2:08:48 pm
+[trace] message: Dependency | constructor: Intialized with following properties: {"name":"events","internal":false,"groupName":""} | 2:08:48 pm
+[trace] message: Dependency | handleResolvedInstancePassedIn: reoslved instance passed so wrapping resolved instance in function | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: calling getResolvedInstanceForCollectionOfDependencies | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args: events | 2:08:48 pm
+[trace] message: Graph | findItem: events target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: events target :dagon | 2:08:48 pm
+[trace] message: Graph | findItem: events target :eventmodels | 2:08:48 pm
+[trace] message: Graph | findItem: events target :eventstore | 2:08:48 pm
+[trace] message: Graph | findItem: events target :extend | 2:08:48 pm
+[trace] message: Graph | findItem: events target :readstorerepository | 2:08:48 pm
+[trace] message: Graph | findItem: events target :eventHandlerBase | 2:08:48 pm
+[trace] message: Graph | findItem: events target :plugin | 2:08:48 pm
+[trace] message: Graph | findItem: events target :NotificationHandler | 2:08:48 pm
+[trace] message: Graph | findItem: events target :SubscriptionMock | 2:08:48 pm
+[trace] message: Graph | findItem: events target :TestEventHandler | 2:08:48 pm
+[trace] message: Graph | findItem: events target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: item NOT found, trying to require(dep) | 2:08:48 pm
+[trace] message: Graph | findItem: require found item | 2:08:48 pm
+[trace] message: Graph | findItem: adding it to graph | 2:08:48 pm
+[trace] message: Dependency | constructor: Intialized with following properties: {"name":"events","internal":false,"groupName":""} | 2:08:48 pm
+[trace] message: Dependency | handleResolvedInstancePassedIn: reoslved instance passed so wrapping resolved instance in function | 2:08:48 pm
+[trace] message: Dependency | getResolvedInstanceForCollectionOfDependencies: getting resolved instances recursively | 2:08:48 pm
+[trace] message: Dependency | instantiate: actually resolving instances | 2:08:48 pm
+[trace] message: Dependency | instantiate: if no dependencies just call wrappedInstance, otherwise apply function with dependencies | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args: eventHandlerBase | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :dagon | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :eventmodels | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :eventstore | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :extend | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :readstorerepository | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :eventHandlerBase | 2:08:48 pm
+[trace] message: Graph | findItem: item found | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args: eventstore,readstorerepository,eventmodels,logger | 2:08:48 pm
+[trace] message: Graph | findItem: eventstore target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: eventstore target :dagon | 2:08:48 pm
+[trace] message: Graph | findItem: eventstore target :eventmodels | 2:08:48 pm
+[trace] message: Graph | findItem: eventstore target :eventstore | 2:08:48 pm
+[trace] message: Graph | findItem: item found | 2:08:48 pm
+[trace] message: Graph | findItem: readstorerepository target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: readstorerepository target :dagon | 2:08:48 pm
+[trace] message: Graph | findItem: readstorerepository target :eventmodels | 2:08:48 pm
+[trace] message: Graph | findItem: readstorerepository target :eventstore | 2:08:48 pm
+[trace] message: Graph | findItem: readstorerepository target :extend | 2:08:48 pm
+[trace] message: Graph | findItem: readstorerepository target :readstorerepository | 2:08:48 pm
+[trace] message: Graph | findItem: item found | 2:08:48 pm
+[trace] message: Graph | findItem: eventmodels target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: eventmodels target :dagon | 2:08:48 pm
+[trace] message: Graph | findItem: eventmodels target :eventmodels | 2:08:48 pm
+[trace] message: Graph | findItem: item found | 2:08:48 pm
+[trace] message: Graph | findItem: logger target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: item found | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: calling getResolvedInstanceForCollectionOfDependencies | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args: eventHandlerBase | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :logger | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :dagon | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :eventmodels | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :eventstore | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :extend | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :readstorerepository | 2:08:48 pm
+[trace] message: Graph | findItem: eventHandlerBase target :eventHandlerBase | 2:08:48 pm
+[trace] message: Graph | findItem: item found | 2:08:48 pm
+[trace] message: Dependency | getResolvedInstanceForCollectionOfDependencies: getting resolved instances recursively | 2:08:48 pm
+[trace] message: Dependency | instantiate: actually resolving instances | 2:08:48 pm
+[trace] message: Dependency | instantiate: if no dependencies just call wrappedInstance, otherwise apply function with dependencies | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | resolveInstance: resolving instance or returning if already resolved | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: calling getResolvedInstanceForCollectionOfDependencies | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: getting args from wrapper function and finding instances in graph | 2:08:48 pm
+[trace] message: Dependency | getCollectionOfDependencies: args:  | 2:08:48 pm
+[trace] message: Dependency | getResolvedInstanceForCollectionOfDependencies: getting resolved instances recursively | 2:08:48 pm
+[trace] message: Dependency | instantiate: actually resolving instances | 2:08:48 pm
+[trace] message: Dependency | instantiate: if no dependencies just call wrappedInstance, otherwise apply function with dependencies | 2:08:48 pm
+Error: Cannot find module 'logger'
+    at Function.Module._resolveFilename (module.js:336:15)
+    at Function.Module._load (module.js:278:25)
+    at Module.require (module.js:365:17)
+    at require (module.js:384:17)
+    at Dependency.wrappedInstance (/home/parallels/Development/methodfitness/core_eventHandlerBase/node_modules/dagon/src/Dependency.js:195:24)
+    at Dependency._instantiate (/home/parallels/Development/methodfitness/core_eventHandlerBase/node_modules/dagon/src/Dependency.js:63:138)
+    at Dependency.resolveInstance (/home/parallels/Development/methodfitness/core_eventHandlerBase/node_modules/dagon/src/Dependency.js:54:42)
+    at /home/parallels/Development/methodfitness/core_eventHandlerBase/node_modules/dagon/src/GraphResolver.js:36:19
+    at Array.forEach (native)
+    at GraphResolver.recurseTree (/home/parallels/Development/methodfitness/core_eventHandlerBase/node_modules/dagon/src/GraphResolver.js:32:26)
+    at GraphResolver.recurse (/home/parallels/Development/methodfitness/core_eventHandlerBase/node_modules/dagon/src/GraphResolver.js:25:18)
+    at new Container (/home/parallels/Development/methodfitness/core_eventHandlerBase/node_modules/dagon/src/Container.js:42:37)
+    at module.exports (/home/parallels/Development/methodfitness/core_eventHandlerBase/testBootstrapper.js:9:12)
+    at Suite.<anonymous> (/home/parallels/Development/methodfitness/core_eventHandlerBase/tests/unitTests/gesEventHandlerTester.js:18:54)
+    at context.describe.context.context (/home/parallels/Development/methodfitness/core_eventHandlerBase/node_modules/mocha/lib/interfaces/bdd.js:47:10)
+    at Object.<anonymous> (/home/parallels/Development/methodfitness/core_eventHandlerBase/tests/unitTests/gesEventHandlerTester.js:7:1)
+    at Module._compile (module.js:460:26)
+    at normalLoader (/home/parallels/Development/methodfitness/core_eventHandlerBase/node_modules/babel/node_modules/babel-core/lib/api/register/node.js:199:5)
+    at Object.require.extensions.(anonymous function) [as .js] (/home/parallels/Development/methodfitness/core_eventHandlerBase/node_modules/babel/node_modules/babel-core/lib/api/register/node.js:216:7)
+    at Module.load (module.js:355:32)
+    at Function.Module._load (module.js:310:12)
+    at Module.require (module.js:365:17)
+    at require (module.js:384:17)
+    at /home/parallels/Development/methodfitness/core_eventHandlerBase/node_modules/mocha/lib/mocha.js:216:27
+    at Array.forEach (native)
+    at Mocha.loadFiles (/home/parallels/Development/methodfitness/core_eventHandlerBase/node_modules/mocha/lib/mocha.js:213:14)
+    at Mocha.run (/home/parallels/Development/methodfitness/core_eventHandlerBase/node_modules/mocha/lib/mocha.js:453:10)
+    at loadAndRun (/home/parallels/Development/methodfitness/core_eventHandlerBase/node_modules/mocha/bin/_mocha:357:22)
+    at Object.<anonymous> (/home/parallels/Development/methodfitness/core_eventHandlerBase/node_modules/mocha/bin/_mocha:374:3)
+    at Module._compile (module.js:460:26)
+    at Object.Module._extensions..js (module.js:478:10)
+    at Module.load (module.js:355:32)
+    at Function.Module._load (module.js:310:12)
+    at Function.Module.runMain (module.js:501:10)
+    at startup (node.js:129:16)
+    at node.js:814:3
+[?25h
+

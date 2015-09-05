@@ -3,8 +3,8 @@
  */
 
 
-module.exports = function(gesEventHandlerBase) {
-    return class TestEventHandler extends gesEventHandlerBase {
+module.exports = function(eventHandlerBase) {
+    return class TestEventHandler extends eventHandlerBase {
         constructor() {
             super();
             this.handlesEvents = ['someEventNotificationOn',
