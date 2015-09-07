@@ -10,6 +10,6 @@ module.exports = function(_options) {
         x.pathToRoot(__dirname)
             .requireDirectoryRecursively('./src')
             .for('bluebird').renameTo('Promise')
-            .for('corelogger').renameTo('logger').instanciate(i=>i.asFunc().withParameters(options.logger || {}))
+            .for('corelogger').renameTo('logger').instantiate(i=>i.asFunc().withParameters(options.logger || {}))
             .complete());
 };
