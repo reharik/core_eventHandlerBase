@@ -14,7 +14,7 @@ module.exports = function(eventstore, readstorerepository, eventmodels, logger) 
 
         async handleEvent(gesEvent) {
             logger.debug('handleEvent | checking event for idempotence');
-            var idempotency = await readStoreRepository.checkIdempotency(gesEvent.originalPosition, this.eventHandlerName);
+            var idempotency = await readstorerepository.checkIdempotency(gesEvent.originalPosition, this.eventHandlerName);
             if (!idempotency.isIdempotent) {
                 logger.debug('handleEvent | event is not idempotent');
                 return;
@@ -28,17 +28,17 @@ module.exports = function(eventstore, readstorerepository, eventmodels, logger) 
                 this[gesEvent.eventName](gesEvent.data);
 
                 logger.trace('handleEvent | event Handled by: ' + gesEvent.eventName + ' on ' + this.eventHandlerName);
-                readStoreRepository.recordEventProcessed(gesEvent.originalPosition, this.eventHandlerName, idempotency.isNewStream);
+                readstorerepository.recordEventProcessed(gesEvent.originalPosition, this.eventHandlerName, idempotency.isNewStream);
 
             } catch (exception) {
                 logger.error('handleEvent | event: ' + JSON.stringify(gesEvent) + ' threw exception: ' + exception);
 
-                this.responseMessage = eventModels.notificationEvent("Failure", exception.message, gesEvent);
+                this.responseMessage = eventmodels.notificationEvent("Failure", exception.message, gesEvent);
 
             } finally {
 
                 logger.trace('handleEvent | beginning to process responseMessage');
-                var responseEvent = eventModels.eventData(
+                var responseEvent = eventmodels.eventData(
                     this.responseMessage.eventName,
                     this.responseMessage.data,
                     {"continuationId": this.responseMessage.continuationId,
@@ -55,7 +55,7 @@ module.exports = function(eventstore, readstorerepository, eventmodels, logger) 
                 logger.debug('handleEvent | event data created: ' + JSON.stringify(appendData));
                 logger.trace('handleEvent | publishing notification');
 
-                this.result = eventStore.appendToStreamPromise('notification', appendData);
+                this.result = eventstore.appendToStreamPromise('notification', appendData);
 
             }
             // largely for testing purposes, sadly
@@ -63,9 +63,8 @@ module.exports = function(eventstore, readstorerepository, eventmodels, logger) 
         }
 
         createNotification(gesEvent){
-            console.log(gesEvent);
             logger.debug('createNotification | building response notification');
-            this.responseMessage = eventModels.notificationEvent("Success", "Success", gesEvent, gesEvent.metadata.continuationId);
+            this.responseMessage = eventmodels.notificationEvent("Success", "Success", gesEvent, gesEvent.metadata.continuationId);
             logger.trace('createNotification | getting continuation Id: ' + this.responseMessage.continuationId);
         }
     }
