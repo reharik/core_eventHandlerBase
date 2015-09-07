@@ -12,7 +12,5 @@ module.exports = function(_options) {
     };
     extend(options, _options || {});
     var container = registry(options);
-    var plugin = container.getInstanceOf('eventHandlerBase');
-
-    return plugin(options);
+    return container.getInstanceOf('eventHandlerBase');
 };
