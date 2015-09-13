@@ -8,6 +8,11 @@ module.exports = function(_options) {
     var options = {
         logger: {
             moduleName: 'EventHandlerBase'
+        },
+        dagon:{
+            logger: {
+                moduleName: 'EventHandlerBase'
+            }
         }
     };
     extend(options, _options || {});

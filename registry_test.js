@@ -1,12 +1,12 @@
 /**
  * Created by parallels on 9/3/15.
  */
-var container = require('dagon');
+var dagon = require('dagon');
 
 module.exports = function(_options) {
     var options = _options || {};
-
-    return new container(x=>
+    var container = dagon(options.dagon);
+    var instance = new container(x=>
         x.pathToRoot(__dirname)
             .requireDirectoryRecursively('./src')
             .requireDirectoryRecursively('./tests/unitTests/mocks')
@@ -16,4 +16,8 @@ module.exports = function(_options) {
             .for('readstorerepository').require('./tests/unitTests/mocks/readStoreRepositoryMock')
             .for('eventstore').require('./tests/unitTests/mocks/eventStoreMock')
             .complete());
+
+    console.log(instance.whatDoIHave());
+    return instance;
+
 };

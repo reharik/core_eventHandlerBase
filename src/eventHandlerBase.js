@@ -54,8 +54,7 @@ module.exports = function(eventstore, readstorerepository, eventmodels, logger) 
 
                 logger.debug('handleEvent | event data created: ' + JSON.stringify(appendData));
                 logger.trace('handleEvent | publishing notification');
-
-                this.result = eventstore.appendToStreamPromise('notification', appendData);
+                this.result = await eventstore.appendToStreamPromise('notification', appendData);
 
             }
             // largely for testing purposes, sadly

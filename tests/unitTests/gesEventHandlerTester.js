@@ -8,19 +8,22 @@ describe('gesEventHandlerBase', function() {
     var mut;
     var TestHandler;
     var eventmodels;
-    var uuid;
+    var uuid ;
     var JSON;
     var options = {
         logger: {
             moduleName: 'EventHandlerBase'
+        },
+        dagon:{
+
         }
     };
     var container = require('../../registry_test')(options);
     before(function(){
         TestHandler = container.getInstanceOf('TestEventHandler');
         eventmodels = container.getInstanceOf('eventmodels');
-        uuid = container.getInstanceOf('uuid');
-        JSON = container.getInstanceOf('JSON');
+        uuid = require('uuid');
+        JSON = require('JSON');
         mut = new TestHandler();
     });
 
@@ -40,8 +43,6 @@ describe('gesEventHandlerBase', function() {
             it('should not process event', async function () {
                 var eventData = eventmodels.gesEvent('someExceptionNotificationOff',{'some':'data'},{eventTypeName:'someExceptionNotificationOff'});
                 var result = await mut.handleEvent(eventData);
-                console.log('eventmodelsxxxxxxxxxxxxxx');
-                console.log(eventmodels);
                 mut.eventsHandled.length.must.equal(0);
             })
         });
@@ -49,8 +50,9 @@ describe('gesEventHandlerBase', function() {
         context('when calling handler that throws an exception and notification on', function () {
             it('should send proper notification event', async function () {
 
-                var eventData =eventmodels.gesEvent('someExceptionNotificationOn',{'some':'data'},{eventTypeName:'someExceptionNotificationOn'});
-                var result = await mut.handleEvent(eventData);
+                var eventData = eventmodels.gesEvent('someExceptionNotificationOn',
+                    {'some': 'data'}, {eventTypeName: 'someExceptionNotificationOn'});
+                var result    = await mut.handleEvent(eventData);
                 JSON.parse(result.events[0].Data).result.must.equal('Failure');
             })
         });

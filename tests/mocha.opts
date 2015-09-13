@@ -3,3 +3,4 @@
 --recursive
 --watch
 --debug
+--colors

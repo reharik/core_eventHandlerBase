@@ -20,8 +20,9 @@
   "license": "MIT",
   "node": ">=0.12.0",
   "dependencies": {
+    "bluebird": "^2.10.0",
     "corelogger": "git+https://github.com/reharik/core_logger.git",
-    "dagon": "^0.1.2",
+    "dagon": "git+https://github.com/reharik/dagon.git#functional",
     "eventmodels": "git+https://github.com/reharik/core_eventModels.git",
     "eventstore": "git+https://github.com/reharik/core_eventStore.git",
     "extend": "^3.0.0",
