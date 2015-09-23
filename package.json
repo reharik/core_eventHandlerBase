@@ -22,7 +22,7 @@
   "dependencies": {
     "bluebird": "^2.10.0",
     "corelogger": "git+https://github.com/reharik/core_logger.git",
-    "dagon": "git+https://github.com/reharik/dagon.git#functional",
+    "dagon": "git+https://github.com/reharik/dagon.git",
     "eventmodels": "git+https://github.com/reharik/core_eventModels.git",
     "eventstore": "git+https://github.com/reharik/core_eventStore.git",
     "extend": "^3.0.0",
