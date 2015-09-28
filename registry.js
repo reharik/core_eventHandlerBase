@@ -11,6 +11,7 @@ module.exports = function(_options) {
             .requireDirectoryRecursively('./src')
             .for('bluebird').renameTo('Promise')
             .for('corelogger').renameTo('logger').instantiate(i=>i.asFunc().withParameters(options.logger || {}))
+            .for('eventmodels').instantiate(i=>i.asFunc())
             .for('readstorerepository').instantiate(i=>i.asFunc().withParameters(options || {}))
             .complete());
 };
