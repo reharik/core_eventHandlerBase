@@ -40,6 +40,7 @@ module.exports = function(eventstore, readstorerepository, eventmodels, logger) 
             } finally {
                 logger.trace('handleEvent | beginning to process responseMessage');
                 try {
+                    console.log(this.responseMessage);
                     var responseEvent = this.responseMessage.toEventData();
 
                     console.log('responseEventxxxxxxxxxxxxxxxx');
