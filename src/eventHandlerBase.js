@@ -31,7 +31,7 @@ module.exports = function(eventstore, readstorerepository, eventmodels, logger) 
                 readstorerepository.recordEventProcessed(gesEvent.originalPosition, this.eventHandlerName, idempotency.isNewStream);
 
             } catch (exception) {
-                logger.error('handleEvent | event: ' + JSON.stringify(gesEvent) + ' threw exception: ' + exception);
+                logger.error('handleEvent | event: ' + gesEvent.friendlyDisplay() + ' threw exception: ' + exception);
 
                 this.responseMessage = eventmodels.notificationEvent("Failure", exception.message, gesEvent);
 
@@ -45,14 +45,14 @@ module.exports = function(eventstore, readstorerepository, eventmodels, logger) 
                         "eventName":"notification",
                         "streamType":"notification"});
 
-                logger.debug('handleEvent | response event created: ' + JSON.stringify(responseEvent));
+                logger.debug('handleEvent | response event created: ' + responseEvent.friendlyDisplay());
 
                 var appendData = {
                     expectedVersion: -2,
                     events: [responseEvent]
                 };
 
-                logger.debug('handleEvent | event data created: ' + JSON.stringify(appendData));
+                logger.debug('handleEvent | event data created: ' + appendData.friendlyDisplay());
                 logger.trace('handleEvent | publishing notification');
                 this.result = await eventstore.appendToStreamPromise('notification', appendData);
 
