@@ -24,7 +24,9 @@ module.exports = function(eventstore, readstorerepository, eventmodels, logger) 
             try {
                 logger.info('handleEvent | calling specific event handler for: ' + gesEvent.eventName + ' on ' + this.eventHandlerName);
                 this.createNotification(gesEvent);
-
+                console.log("calling handlerxcxxxxxxxxxxxxxxxxxxx");
+                console.log(this);
+                console.log(gesEvent.eventName);
                 this[gesEvent.eventName](gesEvent.data, gesEvent.metadata.continuationId);
 
                 logger.trace('handleEvent | event Handled by: ' + gesEvent.eventName + ' on ' + this.eventHandlerName);
