@@ -44,6 +44,7 @@ module.exports = function(eventstore, readstorerepository, eventmodels, logger) 
                     var responseEvent = this.responseMessage.toEventData();
 
                     console.log('responseEventxxxxxxxxxxxxxxxx');
+                    console.log(responseEvent);
                     console.log(responseEvent.friendlyDisplay());
                     logger.debug('handleEvent | response event created: ' + responseEvent.friendlyDisplay());
 
