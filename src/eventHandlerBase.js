@@ -39,7 +39,7 @@ module.exports = function(eventstore, readstorerepository, eventmodels, logger) 
 
             } finally {
                 logger.trace('handleEvent | beginning to process responseMessage');
-                var responseEvent = responseMessage.toEventData();
+                var responseEvent = this.responseMessage.toEventData();
                 console.log('responseEventxxxxxxxxxxxxxxxx');
                 console.log(responseEvent.friendlyDisplay());
                 logger.debug('handleEvent | response event created: ' + responseEvent.friendlyDisplay());
