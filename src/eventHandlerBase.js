@@ -22,8 +22,6 @@ module.exports = function(eventstore, readstorerepository, eventmodels, logger) 
             logger.trace('handleEvent | event idempotent');
 
             try {
-                console.log('gesEventxxxxxxxxxxxxxxx');
-                console.log(gesEvent);
                 logger.info('handleEvent | calling specific event handler for: ' + gesEvent.eventName + ' on ' + this.eventHandlerName);
                 this.createNotification(gesEvent);
 
@@ -39,32 +37,20 @@ module.exports = function(eventstore, readstorerepository, eventmodels, logger) 
 
             } finally {
                 logger.trace('handleEvent | beginning to process responseMessage');
-                try {
-                    console.log(this.responseMessage);
-                    var responseEvent = this.responseMessage.toEventData();
+                var responseEvent = this.responseMessage.toEventData();
+                logger.debug('handleEvent | response event created: ' + responseEvent.friendlyDisplay());
 
-                    console.log('responseEventxxxxxxxxxxxxxxxx');
-                    console.log(responseEvent);
-                    console.log(responseEvent.friendlyDisplay());
-                    logger.debug('handleEvent | response event created: ' + responseEvent.friendlyDisplay());
+                var appendData = {
+                    expectedVersion: -2,
+                    events: [responseEvent]
+                };
 
-                    var appendData = {
-                        expectedVersion: -2,
-                        events: [responseEvent]
-                    };
-
-
-                    logger.debug('handleEvent | event data created: ' + appendData);
-                    logger.trace('handleEvent | publishing notification');
-                    this.result = await eventstore.appendToStreamPromise('notification', appendData);
-                }catch(ex){
-                    console.log('blew the fuck up');
-                    console.log(ex);
-                    console.log(ex.stack);
-                }
+                logger.debug('handleEvent | event data created: ' + appendData);
+                logger.trace('handleEvent | publishing notification');
+                this.result = await eventstore.appendToStreamPromise('notification', appendData);
             }
             // largely for testing purposes, sadly
-            //return this.result;
+            return this.result;
         }
 
         createNotification(gesEvent){

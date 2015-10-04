@@ -12,6 +12,7 @@ module.exports = function(_options) {
             .for('bluebird').renameTo('Promise')
             .for('corelogger').renameTo('logger').instantiate(i=>i.asFunc().withParameters(options.logger || {}))
             .for('eventmodels').instantiate(i=>i.asFunc())
+            .for('eventstore').instantiate(i=>i.asFunc().withParameters(options || {}))
             .for('readstorerepository').instantiate(i=>i.asFunc().withParameters(options || {}))
             .complete());
 };
