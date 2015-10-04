@@ -46,7 +46,7 @@ module.exports = function(eventstore, readstorerepository, eventmodels, logger) 
                         "eventName":"notification",
                         "streamType":"notification"});
                 console.log('responseEventxxxxxxxxxxxxxxxx');
-                console.log(responseEvent);
+                console.log(responseEvent.friendlyDisplay());
                 logger.debug('handleEvent | response event created: ' + responseEvent.friendlyDisplay());
 
                 var appendData = {
