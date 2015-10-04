@@ -39,24 +39,30 @@ module.exports = function(eventstore, readstorerepository, eventmodels, logger) 
 
             } finally {
                 logger.trace('handleEvent | beginning to process responseMessage');
-                var responseEvent = this.responseMessage.toEventData();
-                console.log('responseEventxxxxxxxxxxxxxxxx');
-                console.log(responseEvent.friendlyDisplay());
-                logger.debug('handleEvent | response event created: ' + responseEvent.friendlyDisplay());
+                try {
+                    var responseEvent = this.responseMessage.toEventData();
 
-                var appendData = {
-                    expectedVersion: -2,
-                    events: [responseEvent]
-                };
+                    console.log('responseEventxxxxxxxxxxxxxxxx');
+                    console.log(responseEvent.friendlyDisplay());
+                    logger.debug('handleEvent | response event created: ' + responseEvent.friendlyDisplay());
+
+                    var appendData = {
+                        expectedVersion: -2,
+                        events: [responseEvent]
+                    };
 
 
-                logger.debug('handleEvent | event data created: ' + appendData);
-                logger.trace('handleEvent | publishing notification');
-                this.result = await eventstore.appendToStreamPromise('notification', appendData);
-
+                    logger.debug('handleEvent | event data created: ' + appendData);
+                    logger.trace('handleEvent | publishing notification');
+                    this.result = await eventstore.appendToStreamPromise('notification', appendData);
+                }catch(ex){
+                    console.log('blew the fuck up');
+                    console.log(ex);
+                    console.log(ex.stack);
+                }
             }
             // largely for testing purposes, sadly
-            return this.result;
+            //return this.result;
         }
 
         createNotification(gesEvent){
