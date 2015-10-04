@@ -39,12 +39,7 @@ module.exports = function(eventstore, readstorerepository, eventmodels, logger) 
 
             } finally {
                 logger.trace('handleEvent | beginning to process responseMessage');
-                var responseEvent = eventmodels.eventData(
-                    this.responseMessage.eventName,
-                    this.responseMessage.data,
-                    {"continuationId": this.responseMessage.continuationId,
-                        "eventName":"notification",
-                        "streamType":"notification"});
+                var responseEvent = responseMessage.toEventData();
                 console.log('responseEventxxxxxxxxxxxxxxxx');
                 console.log(responseEvent.friendlyDisplay());
                 logger.debug('handleEvent | response event created: ' + responseEvent.friendlyDisplay());
@@ -54,7 +49,8 @@ module.exports = function(eventstore, readstorerepository, eventmodels, logger) 
                     events: [responseEvent]
                 };
 
-                logger.debug('handleEvent | event data created: ' + appendData.friendlyDisplay());
+
+                logger.debug('handleEvent | event data created: ' + appendData);
                 logger.trace('handleEvent | publishing notification');
                 this.result = await eventstore.appendToStreamPromise('notification', appendData);
 
@@ -65,7 +61,7 @@ module.exports = function(eventstore, readstorerepository, eventmodels, logger) 
 
         createNotification(gesEvent){
             logger.debug('createNotification | building response notification');
-            this.responseMessage = eventmodels.notificationEvent("Success", "Success", gesEvent, gesEvent.metadata.continuationId);
+            this.responseMessage = eventmodels.notificationEvent("Success", "Success", gesEvent);
             logger.trace('createNotification | getting continuation Id: ' + this.responseMessage.continuationId);
         }
     }
