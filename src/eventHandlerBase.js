@@ -22,6 +22,7 @@ module.exports = function(eventstore, readstorerepository, eventmodels, logger) 
             logger.trace('handleEvent | event idempotent');
 
             try {
+                console.log(gesEvent.friendlyDisplay());
                 logger.info('handleEvent | calling specific event handler for: ' + gesEvent.eventName + ' on ' + this.eventHandlerName);
                 this.createNotification(gesEvent);
 
@@ -36,7 +37,6 @@ module.exports = function(eventstore, readstorerepository, eventmodels, logger) 
                 this.responseMessage = eventmodels.notificationEvent("Failure", exception.message, gesEvent);
 
             } finally {
-
                 logger.trace('handleEvent | beginning to process responseMessage');
                 var responseEvent = eventmodels.eventData(
                     this.responseMessage.eventName,
