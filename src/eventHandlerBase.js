@@ -22,7 +22,7 @@ module.exports = function(eventstore, readstorerepository, eventmodels, logger) 
             logger.trace('handleEvent | event idempotent');
 
             try {
-                console.log(gesEvent.friendlyDisplay());
+                console.log(gesEvent);
                 logger.info('handleEvent | calling specific event handler for: ' + gesEvent.eventName + ' on ' + this.eventHandlerName);
                 this.createNotification(gesEvent);
 
