@@ -22,6 +22,7 @@ module.exports = function(eventstore, readstorerepository, eventmodels, logger) 
             logger.trace('handleEvent | event idempotent');
 
             try {
+                console.log('gesEventxxxxxxxxxxxxxxx');
                 console.log(gesEvent);
                 logger.info('handleEvent | calling specific event handler for: ' + gesEvent.eventName + ' on ' + this.eventHandlerName);
                 this.createNotification(gesEvent);
@@ -44,7 +45,8 @@ module.exports = function(eventstore, readstorerepository, eventmodels, logger) 
                     {"continuationId": this.responseMessage.continuationId,
                         "eventName":"notification",
                         "streamType":"notification"});
-
+                console.log('responseEventxxxxxxxxxxxxxxxx');
+                console.log(responseEvent);
                 logger.debug('handleEvent | response event created: ' + responseEvent.friendlyDisplay());
 
                 var appendData = {
