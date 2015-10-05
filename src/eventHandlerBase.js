@@ -33,7 +33,7 @@ module.exports = function(eventstore, readstorerepository, eventmodels, logger) 
                     console.log(this[gesEvent.eventName](gesEvent.data, gesEvent.metadata.continuationId));
                 }catch(ex){
                     console.log(ex);
-                    console.log(ex.message);
+                    console.log(ex.stack);
                 }
                 this[gesEvent.eventName](gesEvent.data, gesEvent.metadata.continuationId);
 
