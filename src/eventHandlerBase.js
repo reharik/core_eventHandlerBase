@@ -35,7 +35,7 @@ module.exports = function(eventstore, readstorerepository, eventmodels, logger) 
                 //    console.log(ex);
                 //    console.log(ex.message);
                 //}
-                this.hireTrainer(gesEvent.data, gesEvent.metadata.continuationId);
+                this.hireTrainer.call(this, [gesEvent.data, gesEvent.metadata.continuationId]);
 
                 logger.trace('handleEvent | event Handled by: ' + gesEvent.eventName + ' on ' + this.eventHandlerName);
                 readstorerepository.recordEventProcessed(gesEvent.originalPosition, this.eventHandlerName, idempotency.isNewStream);
