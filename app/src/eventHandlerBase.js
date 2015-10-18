@@ -1,6 +1,7 @@
 /**
  * Created by rharik on 6/18/15.
  */
+"use strict";
 
 module.exports = function(eventstore, readstorerepository, eventmodels, logger) {
     return class eventHandlerBase {
