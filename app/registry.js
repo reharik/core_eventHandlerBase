@@ -1,6 +1,8 @@
 /**
  * Created by parallels on 9/3/15.
  */
+"use strict";
+
 var dagon = require('dagon');
 var path = require('path');
 
