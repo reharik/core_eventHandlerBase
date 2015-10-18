@@ -2,8 +2,7 @@
  * Created by rharik on 6/19/15.
  */
 
-
-module.exports = function(eventHandlerBase) {
+module.exports = function (eventHandlerBase) {
     return class NotificationHandler extends eventHandlerBase {
         constructor() {
             super();
@@ -19,5 +18,5 @@ module.exports = function(eventHandlerBase) {
         clearEventsHandled() {
             this.eventsHandled = [];
         }
-    }
+    };
 };

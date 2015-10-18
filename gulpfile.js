@@ -16,7 +16,7 @@ gulp.task('clean', function(cb) {
 
 gulp.task("babel",["clean"], function () {
     return gulp.src("app/**/*.js")
-        .pipe(babel({only:["es7.asyncFunctions"]}))
+        .pipe(babel({whitelist:["es7.asyncFunctions"]}))
         .pipe(gulp.dest("output/app"));
 });
 

@@ -4,22 +4,20 @@
 //
 var demand = require('must');
 
-describe('gesEventHandlerBase', function() {
+describe('gesEventHandlerBase', function () {
     var mut;
     var TestHandler;
     var eventmodels;
-    var uuid ;
+    var uuid;
     var JSON;
     var options = {
         logger: {
             moduleName: 'EventHandlerBase'
         },
-        dagon:{
-
-        }
+        dagon: {}
     };
     var container = require('../../registry_test')(options);
-    before(function(){
+    before(function () {
         TestHandler = container.getInstanceOf('TestEventHandler');
         eventmodels = container.getInstanceOf('eventmodels');
         uuid = require('uuid');
@@ -27,49 +25,47 @@ describe('gesEventHandlerBase', function() {
         mut = new TestHandler();
     });
 
-    beforeEach(function(){
+    beforeEach(function () {
         mut.clearEventsHandled();
     });
 
-    describe('#handle event', function() {
+    describe('#handle event', function () {
         context('when calling handler and not passing idempotency', function () {
-            it('should not process event',  function () {
-                mut.handleEvent({'some':'event'});
+            it('should not process event', function () {
+                mut.handleEvent({ 'some': 'event' });
                 mut.eventsHandled.length.must.equal(0);
-            })
+            });
         });
 
         context('when calling handler that throws an exception', function () {
             it('should not process event', async function () {
-                var eventData = eventmodels.gesEvent('someExceptionNotificationOff',{'some':'data'},{eventTypeName:'someExceptionNotificationOff'});
+                var eventData = eventmodels.gesEvent('someExceptionNotificationOff', { 'some': 'data' }, { eventTypeName: 'someExceptionNotificationOff' });
                 var result = await mut.handleEvent(eventData);
                 mut.eventsHandled.length.must.equal(0);
-            })
+            });
         });
 
         context('when calling handler that throws an exception and notification on', function () {
             it('should send proper notification event', async function () {
 
-                var eventData = eventmodels.gesEvent('someExceptionNotificationOn',
-                    {'some': 'data'}, {eventTypeName: 'someExceptionNotificationOn'});
-                var result    = await mut.handleEvent(eventData);
+                var eventData = eventmodels.gesEvent('someExceptionNotificationOn', { 'some': 'data' }, { eventTypeName: 'someExceptionNotificationOn' });
+                var result = await mut.handleEvent(eventData);
                 JSON.parse(result.events[0].Data).result.must.equal('Failure');
-            })
+            });
         });
 
         context('when calling handler that DOES NOT throw an exception and notification ON', function () {
             it('should send proper notification event', async function () {
 
-                var eventData =eventmodels.gesEvent('someEventNotificationOn',{'some':'data'},{eventTypeName:'someEventNotificationOn'});
+                var eventData = eventmodels.gesEvent('someEventNotificationOn', { 'some': 'data' }, { eventTypeName: 'someEventNotificationOn' });
                 var result = await mut.handleEvent(eventData);
                 JSON.parse(result.events[0].Data).result.must.equal('Success');
-            })
+            });
         });
-
 
         context('when calling handler that DOES NOT throws an exception', function () {
             it('should process event', async function () {
-                var eventData = eventmodels.gesEvent('someEventNotificationOff',{'some':'data'},{eventTypeName:'someEventNotificationOff'});
+                var eventData = eventmodels.gesEvent('someEventNotificationOff', { 'some': 'data' }, { eventTypeName: 'someEventNotificationOff' });
                 var result = await mut.handleEvent(eventData);
                 mut.eventsHandled.length.must.equal(1);
             });
@@ -77,7 +73,7 @@ describe('gesEventHandlerBase', function() {
         context('when calling handler is successful', function () {
             it('should have proper properties on notification event', async function () {
                 var continuationId = uuid.v1();
-                var eventData =eventmodels.gesEvent('someEventNotificationOn',{'some':'data'},{eventTypeName:'someEventNotificationOn', continuationId:continuationId});
+                var eventData = eventmodels.gesEvent('someEventNotificationOn', { 'some': 'data' }, { eventTypeName: 'someEventNotificationOn', continuationId: continuationId });
                 var result = await mut.handleEvent(eventData);
                 result.expectedVersion.must.equal(-2);
                 result.events[0].EventId.length.must.equal(36);
@@ -85,7 +81,7 @@ describe('gesEventHandlerBase', function() {
                 JSON.parse(result.events[0].Metadata).eventName.must.equal('notification');
                 JSON.parse(result.events[0].Data).initialEvent.eventName.must.equal('someEventNotificationOn');
                 JSON.parse(result.events[0].Metadata).continuationId.must.equal(continuationId);
-            })
+            });
         });
     });
 });

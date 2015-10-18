@@ -2,7 +2,7 @@
  * Created by rharik on 6/18/15.
  */
 
-module.exports = function(eventstore, readstorerepository, eventmodels, logger) {
+module.exports = function (eventstore, readstorerepository, eventmodels, logger) {
     return class eventHandlerBase {
         constructor() {
             this.responseMessage;
@@ -29,12 +29,10 @@ module.exports = function(eventstore, readstorerepository, eventmodels, logger) 
 
                 logger.trace('handleEvent | event Handled by: ' + gesEvent.eventName + ' on ' + this.eventHandlerName);
                 readstorerepository.recordEventProcessed(gesEvent.originalPosition, this.eventHandlerName, idempotency.isNewStream);
-
             } catch (exception) {
                 logger.error('handleEvent | event: ' + gesEvent.friendlyDisplay() + ' threw exception: ' + exception);
 
                 this.responseMessage = eventmodels.notificationEvent("Failure", exception.message, gesEvent);
-
             } finally {
                 logger.trace('handleEvent | beginning to process responseMessage');
                 var responseEvent = this.responseMessage.toEventData();
@@ -53,10 +51,10 @@ module.exports = function(eventstore, readstorerepository, eventmodels, logger) 
             return this.result;
         }
 
-        createNotification(gesEvent){
+        createNotification(gesEvent) {
             logger.debug('createNotification | building response notification');
             this.responseMessage = eventmodels.notificationEvent("Success", "Success", gesEvent);
             logger.trace('createNotification | getting continuation Id: ' + this.responseMessage.continuationId);
         }
-    }
+    };
 };
