@@ -1,18 +1,20 @@
 /**
  * Created by parallels on 9/7/15.
  */
+"use strict";
+
 module.exports = function () {
     return {
-        getById(id, table) {
+        getById: function getById(id, table) {
             return {};
         },
 
-        save(table, document, id) {},
+        save: function save(table, document, id) {},
 
-        checkIdempotency(originalPosition, eventHandlerName) {
+        checkIdempotency: function checkIdempotency(originalPosition, eventHandlerName) {
             return { isIdempotent: true, isNewStream: true };
         },
 
-        recordEventProcessed(originalPosition, eventHandlerName) {}
+        recordEventProcessed: function recordEventProcessed(originalPosition, eventHandlerName) {}
     };
 };
