@@ -3,61 +3,74 @@
  */
 "use strict";
 
-module.exports = function(eventstore, readstorerepository, eventmodels, logger) {
-    return class eventHandlerBase {
-        constructor() {
-            this.responseMessage;
-            this.continuationId;
-            this.handlesEvents = [];
-            this.result;
-            this.eventHandlerName;
-        }
-
-        async handleEvent(gesEvent) {
-            logger.debug('handleEvent | checking event for idempotence');
-            var idempotency = await readstorerepository.checkIdempotency(gesEvent.originalPosition, this.eventHandlerName);
-            if (!idempotency.isIdempotent) {
-                logger.debug('handleEvent | event is not idempotent');
+module.exports = function(eventstore, readstorerepository, eventmodels, Promise, logger) {
+    return function() {
+        var handleEvent = function(state) {
+            var idempotency = checkIdempotency(state);
+            if (!idempotency) {
                 return;
             }
-            logger.trace('handleEvent | event idempotent');
+            idempotency
+                .then(createNotification)
+                .then(handleEventBody)
+                .then(recordEventProcessed)
+                .catch(handleException).bind(this)
+                .then(dispatchResult)
+        };
 
-            try {
-                logger.info('handleEvent | calling specific event handler for: ' + gesEvent.eventName + ' on ' + this.eventHandlerName);
-                this.createNotification(gesEvent);
+        var checkIdempotency = function(state) {
+            logger.debug('handleEvent | checking event for idempotence');
+            readstorerepository.checkIdempotency(state.vent.originalPosition, state.eventHandlerName)
+                .then(function(err, data) {
+                    if (!err && data.isIdempotent) {
+                        state.idempotency = data;
+                        return new Promise(state);
+                    }
+                    logger.debug('handleEvent | event is not idempotent');
+                    return false;
+                    // check to make sure this is returning false;
+                });
+        };
 
-                this[gesEvent.eventName](gesEvent.data, gesEvent.metadata.continuationId);
+        var handleEventBody = function(state) {
+            var vent = state.vent;
+            logger.info('handleEvent | calling specific event handler for: ' + vent.eventName + ' on ' + state.eventHandlerName);
+            state.handlers[vent.eventName](vent.data, vent.metadata.continuationId)
+            .then(function(){ return state; });
+        };
 
-                logger.trace('handleEvent | event Handled by: ' + gesEvent.eventName + ' on ' + this.eventHandlerName);
-                readstorerepository.recordEventProcessed(gesEvent.originalPosition, this.eventHandlerName, idempotency.isNewStream);
+        var recordEventProcessed = function(state) {
+            logger.trace('handleEvent | event Handled by: ' + state.vent.eventName + ' on ' + state.eventHandlerName);
+            return readstorerepository.recordEventProcessed(state.vent.originalPosition, state.eventHandlerName, state.idempotency.isNewStream);
+        };
 
-            } catch (exception) {
-                logger.error('handleEvent | event: ' + gesEvent.friendlyDisplay() + ' threw exception: ' + exception);
-
-                this.responseMessage = eventmodels.notificationEvent("Failure", exception.message, gesEvent);
-
-            } finally {
-                logger.trace('handleEvent | beginning to process responseMessage');
-                var responseEvent = this.responseMessage.toEventData();
-                logger.debug('handleEvent | response event created: ' + responseEvent.friendlyDisplay());
-
-                var appendData = {
-                    expectedVersion: -2,
-                    events: [responseEvent]
-                };
-
-                logger.debug('handleEvent | event data created: ' + appendData);
-                logger.trace('handleEvent | publishing notification');
-                this.result = await eventstore.appendToStreamPromise('notification', appendData);
-            }
-            // largely for testing purposes, sadly
-            return this.result;
-        }
-
-        createNotification(gesEvent){
+        var createNotification = function(state) {
             logger.debug('createNotification | building response notification');
-            this.responseMessage = eventmodels.notificationEvent("Success", "Success", gesEvent);
-            logger.trace('createNotification | getting continuation Id: ' + this.responseMessage.continuationId);
-        }
+            state.responseMessage = eventmodels.notificationEvent("Success", "Success", state.vent);
+            logger.trace('createNotification | getting continuation Id: ' + state.responseMessage.continuationId);
+            return state;
+        };
+
+        var handleException = function(exception) {
+            logger.error('handleEvent | event: ' + this.state.vent.friendlyDisplay() + ' threw exception: ' + exception);
+            var responseMessage = eventmodels.notificationEvent("Failure", exception.message, this.state.vent);
+            dispatchResult({notification:responseMessage});
+        };
+
+        var dispatchResult = function(state) {
+            logger.trace('handleEvent | beginning to process responseMessage');
+            var responseEvent = state.notification.toEventData();
+            logger.debug('handleEvent | response event created: ' + responseEvent.friendlyDisplay());
+
+            var appendData = {
+                expectedVersion: -2,
+                events         : [responseEvent]
+            };
+
+            logger.debug('handleEvent | event data created: ' + appendData);
+            logger.trace('handleEvent | publishing notification');
+            return eventstore.appendToStreamPromise('notification', appendData);
+
+        };
     }
 };
