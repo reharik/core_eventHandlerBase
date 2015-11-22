@@ -16,5 +16,7 @@ module.exports = function(_options) {
             .for('eventmodels').instantiate(i=>i.asFunc())
             .for('readstorerepository').require('./app/tests/unitTests/mocks/readStoreRepositoryMock')
             .for('eventstore').require('./app/tests/unitTests/mocks/eventStoreMock')
+            .for('ramda').renameTo('R')
+            .for('ramdafantasy').renameTo('_fantasy')
             .complete());
 };
