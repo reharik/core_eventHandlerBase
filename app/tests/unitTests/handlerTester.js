@@ -26,6 +26,8 @@ describe('gesEventHandlerBase', function() {
     var Right;
     var treis;
     var R;
+    var continuationId;
+
     var container = require('../../registry_test')(options);
 
     beforeEach(function(){
@@ -40,11 +42,18 @@ describe('gesEventHandlerBase', function() {
         Right =_fantasy.Either.Right;
         uuid = require('uuid');
         JSON = require('JSON');
+
+        event = {
+            eventName:'howardTheDuck',
+            continuationId:uuid.v4(),
+            data: {some:'data'}
+        };
+
         _mut = container.getInstanceOf('handler');
     });
 
     beforeEach(function(){
-        mut = _mut(event,testHandler)
+        mut = _mut(event,testHandler().targetHandlerFunction)
     });
 
     describe('#CHECKIFPROCESSED', function() {
@@ -76,7 +85,13 @@ describe('gesEventHandlerBase', function() {
     describe('#CHECKIDEMPOTENCY', function() {
         context('when recieving a success with idepotent is true', function () {
             it('should return functor with success value',  function () {
-                mut.checkIdempotency('success')
+                var input = {
+                    handle: {path: 'success'},
+                    check : {path: 'success'},
+                    record: {path: 'success'},
+                    dispatch: {path: 'success'}
+                };
+                mut.checkIdempotency(input)
                     .fork(x=> x.must.be.true(),
                         x=> x.isIdempotent.must.be.true());
             })
@@ -84,7 +99,10 @@ describe('gesEventHandlerBase', function() {
 
         context('when recieving a success with idepotent is failure', function () {
             it('should return functor with failure message',  function () {
-                mut.checkIdempotency('failure')
+                var input = {
+                    check : {path: 'failure'}
+                };
+                mut.checkIdempotency(input)
                     .fork(x=> x.must.equal('item has already been processed')
                 ,x=> x.must.be.false());
             })
@@ -92,7 +110,10 @@ describe('gesEventHandlerBase', function() {
 
         context('when recieving a failure', function () {
             it('should return functor with failure message',  function () {
-                mut.checkIdempotency('error')
+                var input = {
+                    check : {path: 'error'}
+                };
+                mut.checkIdempotency(input)
                     .fork(x=> x.must.equal('there was an error processing your request')
                     ,x=>  x.must.be.false());
             })
@@ -100,13 +121,113 @@ describe('gesEventHandlerBase', function() {
 
         context('when recieving an error', function () {
             it('should return functor with failure message',  function () {
-                mut.checkIdempotency()
+                var input = {
+                    check : {path: ''}
+                };
+                mut.checkIdempotency(input)
                     .fork(x=> x.must.eql(new Error('Exception'))
-                    ,x=>  x.must.be.false());
+                    , x =>  x.must.be.false() );
             })
         });
     });
 
+    describe('#HANDLEEVENT', function() {
+        context('when recieving a success with idepotent is true', function () {
+            it('should return functor with success value',  function () {
+                var input = {
+                    handle: {path: 'success'},
+                    check : {path: 'success'},
+                    record: {path: 'success'},
+                    dispatch: {path: 'success'}
+                };
+                mut.handleEvent(input)
+                    .fork(x=> x.must.be.true(),
+                        x=> x.isIdempotent.must.be.true());
+            })
+        });
 
+        context('when recieving a failure', function () {
+            it('should return functor with failure message',  function () {
+                var input = {
+                    handle: {path: 'error'},
+                    check : {path: 'success'},
+                    record: {path: 'success'},
+                    dispatch: {path: 'success'}
+                };
+                mut.handleEvent(input)
+                    .fork(x=> x.must.equal('the handler threw an error processing your request')
+                    ,x=>  x.must.be.false());
+            })
+        });
+
+        context('when recieving an error', function () {
+            it('should return functor with failure message',  function () {
+                var input = {
+                    handle: '',
+                    check : {path: 'success'},
+                    record: {path: 'success'},
+                    dispatch: {path: 'success'}
+                };
+                mut.handleEvent(input)
+                    .fork(x=> x.must.eql(new Error('Exception'))
+                    , x =>  x.must.be.false() );
+            })
+        });
+    });
+
+    describe('#RECORDEVENT', function() {
+        context('when recieving a success with idepotent is true', function () {
+            it('should return functor with success value',  function () {
+                var input = {
+                    handle: {path: 'success'},
+                    check : {path: 'success'},
+                    record: {path: 'success'},
+                    dispatch: {path: 'success'}
+                };
+                mut.recordEvent(input)
+                    .fork(x=> x.must.be.true(),
+                        x=> x.eventName.must.equal('howardTheDuck'));
+            })
+        });
+
+        context('when recieving a failure', function () {
+            it('should return functor with failure message',  function () {
+                var input = {
+                    handle: {path: 'success'},
+                    check : {path: 'success'},
+                    record: {path: 'error'},
+                    dispatch: {path: 'success'}
+                };
+                mut.recordEvent(input)
+                    .fork(x=> x.must.equal('recoding idempotence threw error processing your request')
+                    ,x=>  x.must.be.false());
+            })
+        });
+
+        context('when recieving an error', function () {
+            it('should return functor with failure message',  function () {
+                var input = {
+                    handle: {path: 'success'},
+                    check : {path: 'success'},
+                    record: '',
+                    dispatch: {path: 'success'}
+                };
+                mut.recordEvent(input)
+                    .fork(x=> x.must.eql(new Error('Exception'))
+                    , x =>  x.must.be.false() );
+            })
+        });
+    });
+
+    describe('#NOTIFICATION', function() {
+        context('when creating a notification', function () {
+            it('should put root values on notification',  function () {
+                var notification = mut.notification('success', 'success', event);
+                notification.IsJson.must.not.be.empty();
+                notification.EventId.must.not.be.empty();
+                notification.Type.must.not.be.empty();
+            })
+        });
+    });
 
 });

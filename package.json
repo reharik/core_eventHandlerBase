@@ -31,7 +31,7 @@
     "ramda-fantasy": "^0.4.1",
     "readstorerepository": "git+https://github.com/reharik/core_readStoreRepository.git",
     "treis": "^2.3.16",
-    "tries": "^0.1.0"
+    "uuid": "^2.0.1"
   },
   "devDependencies": {
     "babel": "^5.8.23",

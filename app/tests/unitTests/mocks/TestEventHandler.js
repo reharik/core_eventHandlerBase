@@ -2,7 +2,7 @@
  * Created by rharik on 6/19/15.
  */
 
-module.exports = function() {
+module.exports = function(_fantasy) {
     return function testEventHandler() {
         var handlesEvents    = [
             'someEventNotificationOn',
@@ -16,8 +16,23 @@ module.exports = function() {
         var eventHandlerName = 'TestEventHandler';
 
         var handleEvent        = function(vent) {
-            console.log("HHHEEERRREEE")
             eventsHandled.push(vent);
+        };
+        var targetHandlerFunction = function(event, isIdempotent){
+            return _fantasy.Future((rej, ret)=> {
+                if (isIdempotent.handle.path == 'success') {
+                    ret({
+                        isIdempotent: true,
+                        isNewStream : true,
+                        record:{path:isIdempotent.record.path},
+                        dispatch:{path:isIdempotent.dispatch.path}
+                    });
+                } else if(isIdempotent.handle.path=='error'){
+                    rej('the handler threw an error processing your request');
+                } else {
+                    throw(new Error('Exception'));
+                }
+            });
         };
         var clearEventsHandled = function() {
             eventsHandled = [];
@@ -31,7 +46,8 @@ module.exports = function() {
             handleEvent,
             clearEventsHandled,
             getHandledEvents,
-            eventsHandled
+            eventsHandled,
+            targetHandlerFunction
         }
 
     };

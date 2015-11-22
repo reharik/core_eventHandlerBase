@@ -17,5 +17,7 @@ module.exports = function(_options) {
             .for('eventmodels').instantiate(i=>i.asFunc())
             .for('eventstore').instantiate(i=>i.asFunc().withParameters(options || {}))
             .for('readstorerepository').instantiate(i=>i.asFunc().withParameters(options || {}))
+            .for('ramda').renameTo('R')
+            .for('ramdafantasy').renameTo('_fantasy')
             .complete());
 };

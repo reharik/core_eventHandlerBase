@@ -10,19 +10,22 @@ module.exports = function(_fantasy){
         save(table, document, id){
         },
 
-        checkIdempotency(originalPosition, eventHandlerName){
+        checkIdempotency(event, eventHandlerName){
             return _fantasy.Future((rej, ret)=> {
-                if (originalPosition == 'success') {
+                if (event.check.path  == 'success') {
                     ret({
                         isIdempotent: true,
-                        isNewStream : true
+                        isNewStream : true,
+                        handle:{path:event.handle.path},
+                        record:{path:event.record.path},
+                        dispatch:{path:event.dispatch.path}
                     });
-                } else if (originalPosition == 'failure') {
+                } else if (event.check.path == 'failure') {
                     ret({
                         isIdempotent: false,
                         isNewStream : true
                     });
-                }else if(originalPosition=='error'){
+                }else if(event.check.path =='error'){
                     rej('there was an error processing your request');
                 }else {
                     throw(new Error('Exception'));
@@ -30,8 +33,17 @@ module.exports = function(_fantasy){
             });
         },
 
-        recordEventProcessed(originalPosition, eventHandlerName){
-
+        recordEventProcessed(event, isIdempotent){
+            return _fantasy.Future((rej, ret)=> {
+                if (isIdempotent.record.path == 'success') {
+                    event.path = isIdempotent.dispatch.path;
+                    ret(event);
+                }else if(isIdempotent.record.path =='error'){
+                    rej('recoding idempotence threw error processing your request');
+                }else {
+                    throw(new Error('Exception'));
+                }
+            });
         }
     }
 };
