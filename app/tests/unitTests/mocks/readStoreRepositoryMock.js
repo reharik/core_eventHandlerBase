@@ -36,8 +36,7 @@ module.exports = function(_fantasy){
         recordEventProcessed(event, isIdempotent){
             return _fantasy.Future((rej, ret)=> {
                 if (isIdempotent.record.path == 'success') {
-                    event.path = isIdempotent.dispatch.path;
-                    ret(event);
+                    ret('Success');
                 }else if(isIdempotent.record.path =='error'){
                     rej('recoding idempotence threw error processing your request');
                 }else {

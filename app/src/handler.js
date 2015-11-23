@@ -4,6 +4,7 @@
 
 module.exports = function(readstorerepository,
                           eventmodels,
+                          eventstore,
                           R,
                           _fantasy,
                           uuid,
@@ -32,44 +33,61 @@ module.exports = function(readstorerepository,
         //checkIdempotence  JSON -> Future<string|JSON>
         var checkIdempotency = R.compose(R.chain(checkIfProcessed), readstorerepository.checkIdempotency);
 
-        var handleEventCurried = R.curry((e,i) => handlerFunction(e,i))(event);
+        //handleEventCurried  JSON -> Future<string|JSON>
+        var handleEventCurried = R.curry((i) => handlerFunction(event,i));
 
+        //handleEvent  JSON -> Future<string|JSON>
         var handleEvent = R.compose(R.chain(handleEventCurried), checkIdempotency);
 
-        var recordEventCurried = R.curry((e,i)=>readstorerepository.recordEventProcessed(e,i))(event);
+        //recordEventCurried  JSON -> Future<string|JSON>
+        var recordEventCurried = R.curry((i)=>readstorerepository.recordEventProcessed(event,i));
 
-        var recordEvent = R.compose(R.chain(recordEventCurried), handleEvent);
+        //recordEvent  JSON -> Future<string|JSON>
+        var application = R.compose(R.chain(recordEventCurried), handleEvent);
 
-        var notification = R.curry((x,y,z) => {
+        //notification  string -> string -> Future<string|JSON>
+        var notification = R.curry((x,y) => {
             var data = {
-                result:x,
-                message: y,
-                initialEvent:z
+                result:y,
+                message: x,
+                initialEvent:event
             };
             var metadata = {
-                continuationId: z.continuationId,
-                eventName :z.eventName,
-                streamType :z.eventName
+                continuationId: event.continuationId,
+                eventName :event.eventName,
+                streamType :event.eventName
             };
-            return {
+            notification =  {
                 EventId : uuid.v4(),
                 Type    : 'notification',
                 IsJson  : true,
+                // put this in a method on fh
                 Data    : new buffer.Buffer(JSON.stringify(data)),
                 Metadata: new buffer.Buffer(JSON.stringify(metadata))
+            };
+            return {
+                expectedVersion: -2,
+                events         : [notification]
             }
         });
 
-        // this is provided by the repository or the distributer
+        //append  JSON -> Future<string|JSON>
+        var append = R.curry((x) => eventstore.appendToStreamPromise('notification',x));
 
+        //dispatchSuccess  JSON -> Future<string|JSON>
+        var dispatchSuccess = R.compose(append, notification('Success'));
 
+        //dispatchFailure  JSON -> Future<string|JSON>
+        var dispatchFailure = R.compose(append, notification('Failure'));
 
         return {
             checkIfProcessed,
             checkIdempotency,
             handleEvent,
-            recordEvent,
-            notification
+                notification,
+            dispatchSuccess,
+            dispatchFailure,
+            application
         }
     }
 };

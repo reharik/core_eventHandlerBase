@@ -24,8 +24,7 @@ module.exports = function(_fantasy) {
                     ret({
                         isIdempotent: true,
                         isNewStream : true,
-                        record:{path:isIdempotent.record.path},
-                        dispatch:{path:isIdempotent.dispatch.path}
+                        record:{path:isIdempotent.record.path}
                     });
                 } else if(isIdempotent.handle.path=='error'){
                     rej('the handler threw an error processing your request');

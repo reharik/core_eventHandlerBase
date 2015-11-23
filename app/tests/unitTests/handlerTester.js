@@ -184,9 +184,9 @@ describe('gesEventHandlerBase', function() {
                     record: {path: 'success'},
                     dispatch: {path: 'success'}
                 };
-                mut.recordEvent(input)
+                mut.application(input)
                     .fork(x=> x.must.be.true(),
-                        x=> x.eventName.must.equal('howardTheDuck'));
+                        x=> x.must.equal('Success'));
             })
         });
 
@@ -198,7 +198,7 @@ describe('gesEventHandlerBase', function() {
                     record: {path: 'error'},
                     dispatch: {path: 'success'}
                 };
-                mut.recordEvent(input)
+                mut.application(input)
                     .fork(x=> x.must.equal('recoding idempotence threw error processing your request')
                     ,x=>  x.must.be.false());
             })
@@ -212,7 +212,7 @@ describe('gesEventHandlerBase', function() {
                     record: '',
                     dispatch: {path: 'success'}
                 };
-                mut.recordEvent(input)
+                mut.application(input)
                     .fork(x=> x.must.eql(new Error('Exception'))
                     , x =>  x.must.be.false() );
             })
@@ -223,11 +223,20 @@ describe('gesEventHandlerBase', function() {
         context('when creating a notification', function () {
             it('should put root values on notification',  function () {
                 var notification = mut.notification('success', 'success', event);
-                notification.IsJson.must.not.be.empty();
-                notification.EventId.must.not.be.empty();
-                notification.Type.must.not.be.empty();
-            })
+                notification.events[0].IsJson.must.not.be.empty();
+                notification.events[0].EventId.must.not.be.empty();
+                notification.events[0].Type.must.not.be.empty();
+            });
+            it('should put a buffer of the data values on notification',  function () {
+                var notification = mut.notification('success', 'success', event);
+                var parseData = JSON.parse(notification.events[0].Data.toString('utf8'));
+                parseData.result.must.equal('success');
+            });
+            it('should put a buffer of the metadata values on notification',  function () {
+                var notification = mut.notification('success', 'success', event);
+                var parseData = JSON.parse(notification.events[0].Metadata.toString('utf8'));
+                parseData.eventName.must.equal(event.eventName);
+            });
         });
     });
-
 });
