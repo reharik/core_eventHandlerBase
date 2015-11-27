@@ -18,21 +18,25 @@ module.exports = function(_fantasy) {
         var handleEvent        = function(vent) {
             eventsHandled.push(vent);
         };
-        var targetHandlerFunction = function(event, isIdempotent){
-            return _fantasy.Future((rej, ret)=> {
-                if (isIdempotent.handle.path == 'success') {
-                    ret({
-                        isIdempotent: true,
-                        isNewStream : true,
-                        record:{path:isIdempotent.record.path}
-                    });
-                } else if(isIdempotent.handle.path=='error'){
-                    rej('the handler threw an error processing your request');
-                } else {
-                    throw(new Error('Exception'));
+        var targetHandlerFunction = function(event){
+                if (event.originalPosition.handlerResult) {
+                    return event.originalPosition.handlerResult;
                 }
-            });
+            throw(new Error('Exception'));
         };
+
+        //var targetHandlerFunction = function(event){
+        //    return _fantasy.Future((rej, ret)=> {
+        //        if (event.originalPosition.handlerResult == 'success') {
+        //            ret(event);
+        //        } else if(event.originalPosition.handlerResult== 'error'){
+        //            rej('event handler was unable to complete process');
+        //        } else {
+        //            throw(new Error('Exception'));
+        //        }
+        //    });
+        //};
+
         var clearEventsHandled = function() {
             eventsHandled = [];
         };

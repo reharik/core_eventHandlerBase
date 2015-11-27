@@ -11,7 +11,7 @@ module.exports = function(readstorerepository,
                           buffer,
                           treis) {
 
-    return function(event, handlerFunction){
+    return function(event, handlerName, handlerFunction){
         var ef = eventmodels.eventFunctions;
         var fh = eventmodels.functionalHelpers;
         var log = function(x){ console.log(x); return x; };
@@ -21,29 +21,37 @@ module.exports = function(readstorerepository,
         //checkIfProcessed:: JSON -> Future<string|JSON>
         var checkIfProcessed = function checkIfProcessed(i) {
             return Future((rej, res) => {
-                var isIdempotent = R.compose(log, R.chain(R.equals(true)),fh.safeProp('isIdempotent'));
+                var isIdempotent = R.compose(R.chain(R.equals(true)),fh.safeProp('isIdempotent'));
                 if (isIdempotent(i) === true) {
-                    res(i);
+                    res(event);
                 } else {
                     rej('item has already been processed');
                 }
             })
         };
+        //wrapCheckIdempotency  JSON -> Future<string|JSON>
+        var wrapCheckIdempotency=  e => readstorerepository.checkIdempotency(e.originalPosition, handlerName);
 
         //checkIdempotence  JSON -> Future<string|JSON>
-        var checkIdempotency = R.compose(R.chain(checkIfProcessed), readstorerepository.checkIdempotency);
+        var checkIdempotency = R.compose(R.chain(checkIfProcessed),  wrapCheckIdempotency);
 
-        //handleEventCurried  JSON -> Future<string|JSON>
-        var handleEventCurried = R.curry((i) => handlerFunction(event,i));
+        //wrapRecordEventProcessed  bool -> Future<string|JSON>
+        var wrapRecordEventProcessed = e=> readstorerepository.recordEventProcessed(e.originalPosition, handlerName);
 
-        //handleEvent  JSON -> Future<string|JSON>
-        var handleEvent = R.compose(R.chain(handleEventCurried), checkIdempotency);
+// stop doing this.  we want to map over the handler because it will be a future
+//        wrapHandlerFunction: JSON -> Future<string|JSON>
+        var wrapHandlerFunction = function wrapHandlerFunction(e) {
+            return Future((rej, res) => {
+                if (handlerFunction(e) === 'success') {
+                    res(e);
+                } else {
+                    rej('event handler was unable to complete process');
+                }
+            })
+        };
 
-        //recordEventCurried  JSON -> Future<string|JSON>
-        var recordEventCurried = R.curry((i)=>readstorerepository.recordEventProcessed(event,i));
-
-        //recordEvent  JSON -> Future<string|JSON>
-        var application = R.compose(R.chain(recordEventCurried), handleEvent);
+        //application  JSON -> Future<string|JSON>
+        var application = R.compose(R.chain(wrapRecordEventProcessed), R.chain(wrapHandlerFunction), checkIdempotency);
 
         //notification  string -> string -> Future<string|JSON>
         var notification = R.curry((x,y) => {
@@ -83,8 +91,7 @@ module.exports = function(readstorerepository,
         return {
             checkIfProcessed,
             checkIdempotency,
-            handleEvent,
-                notification,
+            notification,
             dispatchSuccess,
             dispatchFailure,
             application

@@ -10,34 +10,25 @@ module.exports = function(_fantasy){
         save(table, document, id){
         },
 
-        checkIdempotency(event, eventHandlerName){
+        checkIdempotency(originalPosition, eventHandlerName){
             return _fantasy.Future((rej, ret)=> {
-                if (event.check.path  == 'success') {
-                    ret({
-                        isIdempotent: true,
-                        isNewStream : true,
-                        handle:{path:event.handle.path},
-                        record:{path:event.record.path},
-                        dispatch:{path:event.dispatch.path}
-                    });
-                } else if (event.check.path == 'failure') {
-                    ret({
-                        isIdempotent: false,
-                        isNewStream : true
-                    });
-                }else if(event.check.path =='error'){
-                    rej('there was an error processing your request');
+                if (originalPosition.checkResult == 'success') {
+                    ret({isIdempotent:true});
+                } else if (originalPosition.checkResult == 'failure') {
+                    ret('failure');
+                }else if(originalPosition.checkResult =='error'){
+                    rej('checking idempotency resulted in an error');
                 }else {
                     throw(new Error('Exception'));
                 }
             });
         },
 
-        recordEventProcessed(event, isIdempotent){
+        recordEventProcessed(originalPosition, eventHandlerName){
             return _fantasy.Future((rej, ret)=> {
-                if (isIdempotent.record.path == 'success') {
+                if (originalPosition.recordResult == 'success') {
                     ret('Success');
-                }else if(isIdempotent.record.path =='error'){
+                }else if(originalPosition.recordResult =='error'){
                     rej('recoding idempotence threw error processing your request');
                 }else {
                     throw(new Error('Exception'));
