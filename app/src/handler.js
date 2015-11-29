@@ -38,7 +38,6 @@ module.exports = function(readstorerepository,
         //wrapRecordEventProcessed  bool -> Future<string|JSON>
         var wrapRecordEventProcessed = e=> readstorerepository.recordEventProcessed(e.originalPosition, handlerName);
 
-// stop doing this.  we want to map over the handler because it will be a future
 //        wrapHandlerFunction: JSON -> Future<string|JSON>
         var wrapHandlerFunction = function wrapHandlerFunction(e) {
             return Future((rej, res) => {

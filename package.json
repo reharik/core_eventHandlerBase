@@ -4,7 +4,7 @@
   "private": false,
   "description": "core_eventHandlerBase",
   "homepage": "https://github.com/reharik/core_eventHandlerBase#readme",
-  "main": "output/app/index.js",
+  "main": "app/index.js",
   "scripts": {
     "test": "mocha --require ./app/babelhook --opts ./app/tests/mocha.opts ./app/tests/unitTests/*.js"
   },
@@ -29,7 +29,7 @@
     "extend": "^3.0.0",
     "ramda": "^0.18.0",
     "ramda-fantasy": "^0.4.1",
-    "readstorerepository": "git+https://github.com/reharik/core_readStoreRepository.git",
+    "readstorerepository": "git+https://github.com/reharik/core_readStoreRepository.git#functional",
     "treis": "^2.3.16",
     "uuid": "^2.0.1"
   },
