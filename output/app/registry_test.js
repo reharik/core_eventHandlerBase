@@ -14,6 +14,6 @@ module.exports = function (_options) {
             return i.asFunc().withParameters(options.logger || {});
         })['for']('eventmodels').instantiate(function (i) {
             return i.asFunc();
-        })['for']('readstorerepository').require('./app/tests/unitTests/mocks/readStoreRepositoryMock')['for']('eventstore').require('./app/tests/unitTests/mocks/eventStoreMock').complete();
+        })['for']('readstorerepository').require('./app/tests/unitTests/mocks/readStoreRepositoryMock')['for']('eventstore').require('./app/tests/unitTests/mocks/eventStoreMock')['for']('ramda').renameTo('R')['for']('ramdafantasy').renameTo('_fantasy').complete();
     });
 };

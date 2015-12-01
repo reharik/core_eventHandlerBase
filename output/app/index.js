@@ -19,5 +19,5 @@ module.exports = function (_options) {
     };
     extend(options, _options || {});
     var container = registry(options);
-    return container.getInstanceOf('eventHandlerBase');
+    return container.getInstanceOf('handler');
 };

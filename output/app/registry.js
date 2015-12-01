@@ -16,8 +16,8 @@ module.exports = function (_options) {
             return i.asFunc();
         })['for']('eventstore').instantiate(function (i) {
             return i.asFunc().withParameters(options || {});
-        })['for']('readstorerepository').instantiate(function (i) {
+        })['for']('repository').instantiate(function (i) {
             return i.asFunc().withParameters(options || {});
-        }).complete();
+        })['for']('ramda').renameTo('R')['for']('ramdafantasy').renameTo('_fantasy').complete();
     });
 };

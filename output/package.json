@@ -4,7 +4,7 @@
   "private": false,
   "description": "core_eventHandlerBase",
   "homepage": "https://github.com/reharik/core_eventHandlerBase#readme",
-  "main": "output/app/index.js",
+  "main": "app/index.js",
   "scripts": {
     "test": "mocha --require ./app/babelhook --opts ./app/tests/mocha.opts ./app/tests/unitTests/*.js"
   },
@@ -24,10 +24,14 @@
     "bluebird": "^2.10.0",
     "corelogger": "git+https://github.com/reharik/core_logger.git",
     "dagon": "git+https://github.com/reharik/dagon.git#local",
-    "eventmodels": "git+https://github.com/reharik/core_eventModels.git",
+    "eventmodels": "git+https://github.com/reharik/core_eventModels.git#functional",
     "eventstore": "git+https://github.com/reharik/core_eventStore.git",
     "extend": "^3.0.0",
-    "readstorerepository": "git+https://github.com/reharik/core_readStoreRepository.git"
+    "ramda": "^0.18.0",
+    "ramda-fantasy": "^0.4.1",
+    "readstorerepository": "git+https://github.com/reharik/core_readStoreRepository.git#functional",
+    "treis": "^2.3.16",
+    "uuid": "^2.0.1"
   },
   "devDependencies": {
     "babel": "^5.8.23",

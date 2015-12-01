@@ -4,65 +4,48 @@
 
 'use strict';
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+module.exports = function (_fantasy) {
+    return function testEventHandler() {
+        var handlesEvents = ['someEventNotificationOn', 'someEventNotificationOff', 'someExceptionNotificationOn', 'someExceptionNotificationOff', 'testingEventNotificationOn', 'testingEventNotificationOff'];
+        var eventsHandled = [];
+        var eventHandlerName = 'TestEventHandler';
 
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-module.exports = function (eventHandlerBase) {
-    return (function (_eventHandlerBase) {
-        _inherits(TestEventHandler, _eventHandlerBase);
-
-        function TestEventHandler() {
-            _classCallCheck(this, TestEventHandler);
-
-            _get(Object.getPrototypeOf(TestEventHandler.prototype), 'constructor', this).call(this);
-            this.handlesEvents = ['someEventNotificationOn', 'someEventNotificationOff', 'someExceptionNotificationOn', 'someExceptionNotificationOff', 'testingEventNotificationOn', 'testingEventNotificationOff'];
-            this.eventsHandled = [];
-            this.eventHandlerName = 'TestEventHandler';
-        }
-
-        _createClass(TestEventHandler, [{
-            key: 'someEventNotificationOn',
-            value: function someEventNotificationOn(vnt) {
-                console.log('here');
-                this.eventsHandled.push(vnt);
+        var handleEvent = function handleEvent(vent) {
+            eventsHandled.push(vent);
+        };
+        var targetHandlerFunction = function targetHandlerFunction(event) {
+            if (event.originalPosition.handlerResult) {
+                return event.originalPosition.handlerResult;
             }
-        }, {
-            key: 'someEventNotificationOff',
-            value: function someEventNotificationOff(vnt) {
-                this.eventsHandled.push(vnt);
-            }
-        }, {
-            key: 'someExceptionNotificationOn',
-            value: function someExceptionNotificationOn(vnt) {
-                throw new Error();
-            }
-        }, {
-            key: 'someExceptionNotificationOff',
-            value: function someExceptionNotificationOff(vnt) {
-                throw new Error();
-            }
-        }, {
-            key: 'testingEventNotificationOn',
-            value: function testingEventNotificationOn(vnt) {
-                this.eventsHandled.push(vnt);
-            }
-        }, {
-            key: 'testingEventNotificationOff',
-            value: function testingEventNotificationOff(vnt) {
-                this.eventsHandled.push(vnt);
-            }
-        }, {
-            key: 'clearEventsHandled',
-            value: function clearEventsHandled() {
-                this.eventsHandled = [];
-            }
-        }]);
+            throw new Error('Exception');
+        };
 
-        return TestEventHandler;
-    })(eventHandlerBase);
+        //var targetHandlerFunction = function(event){
+        //    return _fantasy.Future((rej, ret)=> {
+        //        if (event.originalPosition.handlerResult == 'success') {
+        //            ret(event);
+        //        } else if(event.originalPosition.handlerResult== 'error'){
+        //            rej('event handler was unable to complete process');
+        //        } else {
+        //            throw(new Error('Exception'));
+        //        }
+        //    });
+        //};
+
+        var clearEventsHandled = function clearEventsHandled() {
+            eventsHandled = [];
+        };
+        var getHandledEvents = function getHandledEvents() {
+            return eventsHandled;
+        };
+        return {
+            handlesEvents: handlesEvents,
+            eventHandlerName: eventHandlerName,
+            handleEvent: handleEvent,
+            clearEventsHandled: clearEventsHandled,
+            getHandledEvents: getHandledEvents,
+            eventsHandled: eventsHandled,
+            targetHandlerFunction: targetHandlerFunction
+        };
+    };
 };
