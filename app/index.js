@@ -18,6 +18,6 @@ module.exports = function(_options) {
         //}
     };
     extend(options, _options || {});
-    var container = registry(options);
-    return container.getInstanceOf('handler');
+    return  registry(options);
+    //return container.getInstanceOf('handler');
 };
