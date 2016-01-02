@@ -4,7 +4,7 @@
 
 module.exports = function(readstorerepository,
                           eventmodels,
-                          eventstore,
+                          eventstoreplugin,
                           R,
                           _fantasy,
                           uuid,
@@ -79,7 +79,7 @@ module.exports = function(readstorerepository,
         });
 
         //append  JSON -> Future<string|JSON>
-        var append = R.curry((x) => eventstore.appendToStreamPromise('notification',x));
+        var append = R.curry((x) => eventstoreplugin.appendToStreamPromise('notification',x));
 
         //dispatchSuccess  JSON -> Future<string|JSON>
         var dispatchSuccess = R.compose(append, notification('Success'));
