@@ -1,6 +1,7 @@
 /**
  * Created by reharik on 11/19/15.
  */
+"use strict";
 
 module.exports = function(readstorerepository,
                           eventmodels,
