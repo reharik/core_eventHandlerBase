@@ -15,9 +15,54 @@ module.exports = function(readstorerepository,
     return function(event, handlerName, handlerFunction){
         var ef = eventmodels.eventFunctions;
         var fh = eventmodels.functionalHelpers;
-        var log = function(x){ console.log(x); return x; };
+        var Future  = _fantasy.Future;
 
-        var Future = _fantasy.Future;
+        var log     = (x) => {
+            console.log('==========log=========');
+            console.log(x);
+            console.log('==========ENDlog=========');
+            return x;
+        };
+        var logPlus     = R.curry((y,x) => {
+            console.log('==========log '+y+'=========');
+            console.log(x);
+            console.log('==========ENDlog '+y+'=========');
+            return x;
+        });
+        var logForkPlus = R.curry((y,x)  => {
+            var fr, sr;
+            x.fork(f=> {
+                    console.log('==========log failure ' + y + '=========');
+                    console.log(f);
+                    console.log('==========ENDlog failure ' + y + '=========');
+                    fr = f;
+                },
+                    s=> {
+                    console.log('==========log success ' + y + '=========');
+                    console.log(s);
+                    console.log('==========ENDlog success ' + y + '=========');
+                    sr = s;
+                });
+
+            return sr ? Future((rej, res)=> res(sr)) : Future((rej, res)=> rej(fr));
+        });
+        var logFork = x  => {
+            var fr, sr;
+            x.fork(f=> {
+                    console.log('==========log failure=========');
+                    console.log(f);
+                    console.log('==========ENDlog failure=========');
+                    fr = f;
+                },
+                    s=> {
+                    console.log('==========log success=========');
+                    console.log(s);
+                    console.log('==========ENDlog success=========');
+                    sr = s;
+                });
+
+            return sr ? Future((rej, res)=> res(sr)) : Future((rej, res)=> rej(fr));
+        };
 
         //checkIfProcessed:: JSON -> Future<string|JSON>
         var checkIfProcessed = function checkIfProcessed(i) {
