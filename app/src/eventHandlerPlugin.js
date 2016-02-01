@@ -66,37 +66,32 @@ module.exports = function(readstorerepository,
 
         //checkIfProcessed:: JSON -> Future<string|JSON>
         var checkIfProcessed = function checkIfProcessed(i) {
-            return Future((rej, res) => {
-                var isIdempotent = R.compose(R.chain(R.equals(true)),fh.safeProp('isIdempotent'));
-                if (isIdempotent(i) === true) {
-                    res(event);
-                } else {
-                    rej('item has already been processed');
-                }
-            })
+            var isIdempotent = R.compose(R.chain(R.equals(true)), fh.safeProp('isIdempotent'));
+            return isIdempotent(i) === true
+                ? Future.of(event)
+                : Future.reject("item has already been processed");
         };
         //wrapCheckIdempotency  JSON -> Future<string|JSON>
         var wrapCheckIdempotency=  e => readstorerepository.checkIdempotency(e.originalPosition, handlerName);
 
         //checkIdempotence  JSON -> Future<string|JSON>
-        var checkIdempotency = R.compose(R.chain(checkIfProcessed),  wrapCheckIdempotency);
+        var checkIdempotency = R.compose(R.chain(checkIfProcessed), wrapCheckIdempotency);
 
         //wrapRecordEventProcessed  bool -> Future<string|JSON>
         var wrapRecordEventProcessed = e=> readstorerepository.recordEventProcessed(e.originalPosition, handlerName);
 
-//        wrapHandlerFunction: JSON -> Future<string|JSON>
+        // wrapHandlerFunction: JSON -> Future<string|JSON>
         var wrapHandlerFunction = function wrapHandlerFunction(e) {
-            return Future((rej, res) => {
-                if (handlerFunction(e) === 'success') {
-                    res(e);
-                } else {
-                    rej('event handler was unable to complete process');
-                }
-            })
+            return handlerFunction(e) === 'success'
+                ? Future.of(e)
+                : Future.reject('event handler was unable to complete process');
         };
 
         //application  JSON -> Future<string|JSON>
-        var application = R.compose(R.chain(wrapRecordEventProcessed), R.chain(wrapHandlerFunction), checkIdempotency);
+        var application = x=> {
+            var app = R.compose(R.chain(wrapRecordEventProcessed), R.chain(wrapHandlerFunction), checkIdempotency);
+            app(x).fork(logPlus('app failure'),logPlus('app success'))
+        };
 
         //notification  string -> string -> Future<string|JSON>
         var notification = R.curry((x,y) => {
