@@ -63,22 +63,24 @@ module.exports = function(readstorerepository,
 
             return sr ? Future((rej, res)=> res(sr)) : Future((rej, res)=> rej(fr));
         };
-
+        
+         
         //checkIfProcessed:: JSON -> Future<string|JSON>
-        var checkIfProcessed = function checkIfProcessed(i) {
-            var isIdempotent = R.compose(R.chain(R.equals(true)), fh.safeProp('isIdempotent'));
-            return isIdempotent(i) === true
-                ? Future.of(event)
+        var checkIdempotency = e => {
+           var check = checkDbForIdempotency(e);
+              return isIdempotent(check) === true
+                ? Future.of(e)
                 : Future.reject("item has already been processed");
         };
-        //wrapCheckIdempotency  JSON -> Future<string|JSON>
-        var wrapCheckIdempotency=  e => readstorerepository.checkIdempotency(e.originalPosition, handlerName);
-
-        //checkIdempotence  JSON -> Future<string|JSON>
-        var checkIdempotency = R.compose(R.chain(checkIfProcessed), wrapCheckIdempotency);
+       
+        //isIdempotent:: JSON -> bool
+        var isIdempotent = R.compose(R.chain(R.equals(true)), fh.safeProp('isIdempotent'));
+       
+        //checkDbForIdempotency  JSON -> Future<string|JSON>
+         var checkDbForIdempotency=  e => readstorerepository.checkIdempotency(fh.safeProp('originalPosition', e), handlerName);
 
         //wrapRecordEventProcessed  bool -> Future<string|JSON>
-        var wrapRecordEventProcessed = e=> readstorerepository.recordEventProcessed(e.originalPosition, handlerName);
+        var wrapRecordEventProcessed = e=> readstorerepository.recordEventProcessed(fh.safeProp('originalPosition', e), handlerName);
 
         // wrapHandlerFunction: JSON -> Future<string|JSON>
         var wrapHandlerFunction = function wrapHandlerFunction(e) {
@@ -86,11 +88,13 @@ module.exports = function(readstorerepository,
                 ? Future.of(e)
                 : Future.reject('event handler was unable to complete process');
         };
-
+        
+        // roundTrip:: JSON -> Future<string|JSON>
+        var roundTrip = R.compose(R.chain(wrapRecordEventProcessed), R.chain(wrapHandlerFunction), checkIdempotency);
+        
         //application  JSON -> Future<string|JSON>
         var application = x=> {
-            var app = R.compose(R.chain(wrapRecordEventProcessed), R.chain(wrapHandlerFunction), checkIdempotency);
-            app(x).fork(logPlus('app failure'),logPlus('app success'))
+          roundTrip(x).fork(logPlus('app failure'),logPlus('app success'))
         };
 
         //notification  string -> string -> Future<string|JSON>
