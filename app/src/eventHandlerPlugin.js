@@ -4,7 +4,7 @@
 "use strict";
 
 module.exports = function(readstorerepository,
-                          eventmodels,
+                          appfuncs,
                           eventstore,
                           R,
                           _fantasy,
@@ -12,63 +12,18 @@ module.exports = function(readstorerepository,
                           buffer,
                           treis) {
 
-    return function(event, handlerName, handlerFunction){
-        var ef = eventmodels.eventFunctions;
-        var fh = eventmodels.functionalHelpers;
+    return function(handlerName, handlerFunction){
+        var ef = appfuncs.eventFunctions;
+        var fh = appfuncs.functionalHelpers;
         var Future  = _fantasy.Future;
 
-        var log     = (x) => {
-            console.log('==========log=========');
-            console.log(x);
-            console.log('==========ENDlog=========');
-            return x;
-        };
-        var logPlus     = R.curry((y,x) => {
-            console.log('==========log '+y+'=========');
-            console.log(x);
-            console.log('==========ENDlog '+y+'=========');
-            return x;
-        });
-        var logForkPlus = R.curry((y,x)  => {
-            var fr, sr;
-            x.fork(f=> {
-                    console.log('==========log failure ' + y + '=========');
-                    console.log(f);
-                    console.log('==========ENDlog failure ' + y + '=========');
-                    fr = f;
-                },
-                    s=> {
-                    console.log('==========log success ' + y + '=========');
-                    console.log(s);
-                    console.log('==========ENDlog success ' + y + '=========');
-                    sr = s;
-                });
+        //checkDbForIdempotency  JSON -> Future<string|JSON>
+        var checkDbForIdempotency=  e => readstorerepository.checkIdempotency(fh.getSafeValue('originalPosition', e), handlerName);
 
-            return sr ? Future((rej, res)=> res(sr)) : Future((rej, res)=> rej(fr));
-        });
-        var logFork = x  => {
-            var fr, sr;
-            x.fork(f=> {
-                    console.log('==========log failure=========');
-                    console.log(f);
-                    console.log('==========ENDlog failure=========');
-                    fr = f;
-                },
-                    s=> {
-                    console.log('==========log success=========');
-                    console.log(s);
-                    console.log('==========ENDlog success=========');
-                    sr = s;
-                });
-
-            return sr ? Future((rej, res)=> res(sr)) : Future((rej, res)=> rej(fr));
-        };
-        
-         
         //checkIfProcessed:: JSON -> Future<string|JSON>
         var checkIdempotency = e => {
-           var check = checkDbForIdempotency(e);
-              return isIdempotent(check) === true
+           //var check = checkDbForIdempotency(e);
+              return isIdempotent(checkDbForIdempotency(e)) === true
                 ? Future.of(e)
                 : Future.reject("item has already been processed");
         };
@@ -76,25 +31,23 @@ module.exports = function(readstorerepository,
         //isIdempotent:: JSON -> bool
         var isIdempotent = R.compose(R.chain(R.equals(true)), fh.safeProp('isIdempotent'));
        
-        //checkDbForIdempotency  JSON -> Future<string|JSON>
-         var checkDbForIdempotency=  e => readstorerepository.checkIdempotency(fh.safeProp('originalPosition', e), handlerName);
-
-        //wrapRecordEventProcessed  bool -> Future<string|JSON>
-        var wrapRecordEventProcessed = e=> readstorerepository.recordEventProcessed(fh.safeProp('originalPosition', e), handlerName);
-
         // wrapHandlerFunction: JSON -> Future<string|JSON>
-        var wrapHandlerFunction = function wrapHandlerFunction(e) {
-            return handlerFunction(e) === 'success'
+        var wrapHandlerFunction = R.curry((e, f) => {
+            return f(e) === 'success'
                 ? Future.of(e)
                 : Future.reject('event handler was unable to complete process');
-        };
-        
+        });
+
+        //wrapRecordEventProcessed  bool -> Future<string|JSON>
+        var wrapRecordEventProcessed = e => readstorerepository.recordEventProcessed(fh.getSafeValue('originalPosition', e), handlerName);
+
+
         // roundTrip:: JSON -> Future<string|JSON>
-        var roundTrip = R.compose(R.chain(wrapRecordEventProcessed), R.chain(wrapHandlerFunction), checkIdempotency);
+        var roundTrip = R.compose(R.chain(wrapRecordEventProcessed), R.chain(wrapHandlerFunction(handlerFunction)), checkIdempotency);
         
         //application  JSON -> Future<string|JSON>
-        var application = x=> {
-          roundTrip(x).fork(logPlus('app failure'),logPlus('app success'))
+        var application = (x,ack)=> {
+          roundTrip(x).fork(ack('app failure'),ack('app success'))
         };
 
         //notification  string -> string -> Future<string|JSON>
