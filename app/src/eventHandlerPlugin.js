@@ -22,15 +22,15 @@ module.exports = function(readstorerepository,
 
         //checkIfProcessed:: JSON -> Future<string|JSON>
         var checkIdempotency = e => {
-           //var check = checkDbForIdempotency(e);
-              return isIdempotent(checkDbForIdempotency(e)) === true
+            //var check = checkDbForIdempotency(e);
+            return isIdempotent(checkDbForIdempotency(e)) === true
                 ? Future.of(e)
                 : Future.reject("item has already been processed");
         };
-       
+
         //isIdempotent:: JSON -> bool
         var isIdempotent = R.compose(R.chain(R.equals(true)), fh.safeProp('isIdempotent'));
-       
+
         // wrapHandlerFunction: JSON -> Future<string|JSON>
         var wrapHandlerFunction = R.curry((e, f) => {
             return f(e) === 'success'
@@ -44,10 +44,10 @@ module.exports = function(readstorerepository,
 
         // roundTrip:: JSON -> Future<string|JSON>
         var roundTrip = R.compose(R.chain(wrapRecordEventProcessed), R.chain(wrapHandlerFunction(handlerFunction)), checkIdempotency);
-        
+
         //application  JSON -> Future<string|JSON>
         var application = (x,ack)=> {
-          roundTrip(x).fork(ack('app failure'),ack('app success'))
+            roundTrip(x).fork(r=>ack('app failure ' +r),r=>ack('app success ' +r))
         };
 
         //notification  string -> string -> Future<string|JSON>
@@ -86,7 +86,6 @@ module.exports = function(readstorerepository,
         var dispatchFailure = R.compose(append, notification('Failure'));
 
         return {
-            checkIfProcessed,
             checkIdempotency,
             notification,
             dispatchSuccess,
