@@ -42,9 +42,7 @@ module.exports = function(readstorerepository,
         var wrapRecordEventProcessed = e => readstorerepository.recordEventProcessed(fh.getSafeValue('originalPosition', e), handlerName);
 
         //application  JSON -> Future<string|JSON>
-        var application = x => {
-            return R.compose(R.chain(wrapRecordEventProcessed), R.chain(wrapHandlerFunction(handlerFunction)), checkIdempotency);
-        };
+        var application = R.compose(R.chain(wrapRecordEventProcessed), R.chain(wrapHandlerFunction(handlerFunction)), checkIdempotency);
 
         //notification  string -> string -> Future<string|JSON>
         var notification = R.curry((x,y) => {
