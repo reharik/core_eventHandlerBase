@@ -9,7 +9,7 @@ module.exports = function(readstorerepository,
                           R,
                           _fantasy,
                           uuid,
-                          buffer,
+                          buffer,Promise,
                           treis) {
 
     return function(handlerName, handlerFunction){
@@ -25,7 +25,7 @@ module.exports = function(readstorerepository,
             //var check = checkDbForIdempotency(e);
             return isIdempotent(checkDbForIdempotency(e)) === true
                 ? Future.of(e)
-                : Future.reject("item has already been processed");
+                : Future.reject({success:false, errorLevel:'low', message:"item has already been processed"});
         };
 
         //isIdempotent:: JSON -> bool
@@ -35,19 +35,15 @@ module.exports = function(readstorerepository,
         var wrapHandlerFunction = R.curry((e, f) => {
             return f(e) === 'success'
                 ? Future.of(e)
-                : Future.reject('event handler was unable to complete process');
+                : Future.reject({success:false, errorLevel:'severe', message:'event handler was unable to complete process'});
         });
 
         //wrapRecordEventProcessed  bool -> Future<string|JSON>
         var wrapRecordEventProcessed = e => readstorerepository.recordEventProcessed(fh.getSafeValue('originalPosition', e), handlerName);
 
-
-        // roundTrip:: JSON -> Future<string|JSON>
-        var roundTrip = R.compose(R.chain(wrapRecordEventProcessed), R.chain(wrapHandlerFunction(handlerFunction)), checkIdempotency);
-
         //application  JSON -> Future<string|JSON>
-        var application = (x,ack)=> {
-            roundTrip(x).fork(r=>ack('app failure ' +r),r=>ack('app success ' +r))
+        var application = x => {
+            return R.compose(R.chain(wrapRecordEventProcessed), R.chain(wrapHandlerFunction(handlerFunction)), checkIdempotency);
         };
 
         //notification  string -> string -> Future<string|JSON>
@@ -84,6 +80,10 @@ module.exports = function(readstorerepository,
 
         //dispatchFailure  JSON -> Future<string|JSON>
         var dispatchFailure = R.compose(append, notification('Failure'));
+
+        Future.prototype.then = function(res,rej){
+            return this.fork(e => res(e), r => res(r))
+        }
 
         return {
             checkIdempotency,
