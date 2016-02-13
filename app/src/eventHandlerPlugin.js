@@ -18,7 +18,7 @@ module.exports = function(coqueue, eventHandlerWorkflow, co) {
                     console.log('==========ENDexit=========');
                     console.log(fu);
                 }
-            }).catch(function(err) {
+            }.bind(this)).catch(function(err) {
                 console.log('==========err=========');
                 console.log(err);
                 console.log('==========ENDerr=========');
@@ -26,9 +26,6 @@ module.exports = function(coqueue, eventHandlerWorkflow, co) {
         }
 
         handleEvent(event) {
-            console.log('==========this=========');
-            console.log(this);
-            console.log('==========ENDthis=========');
             var handlerBase = eventHandlerWorkflow(this.handlerName, this[event.eventName]);
             console.log('==========handlerBase=========');
             console.log(handlerBase);
