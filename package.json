@@ -21,10 +21,12 @@
   "node": ">=0.12.0",
   "dependencies": {
     "JSON": "^1.0.0",
+    "appfuncs": "git://github.com/reharik/core_applicationFunctions.git",
     "bluebird": "^2.10.0",
+    "co": "^4.6.0",
+    "co-queue": "^2.0.0",
     "corelogger": "git://github.com/reharik/core_logger.git",
     "dagon": "git://github.com/reharik/dagon.git",
-    "appfuncs": "git://github.com/reharik/core_applicationFunctions.git",
     "eventstore": "git://github.com/reharik/core_eventStore.git",
     "extend": "^3.0.0",
     "ramda": "^0.18.0",
