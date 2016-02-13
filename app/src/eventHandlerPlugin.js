@@ -1,7 +1,7 @@
 "use strict";
 
 
-module.exports = function(coqueue, eventhandlerworkflow, co) {
+module.exports = function(coqueue, eventHandlerWorkflow, co) {
     return class eventHandlerBase {
         constructor() {
             this.queue       = new coqueue();
@@ -26,7 +26,10 @@ module.exports = function(coqueue, eventhandlerworkflow, co) {
         }
 
         handleEvent(event) {
-            var handlerBase = eventhandlerworkflow(this.handlerName, this.handlers[event.eventName]);
+            console.log('==========this=========');
+            console.log(this);
+            console.log('==========ENDthis=========');
+            var handlerBase = eventHandlerWorkflow(this.handlerName, this[event.eventName]);
             console.log('==========handlerBase=========');
             console.log(handlerBase);
             console.log('==========ENDhandlerBase=========');
