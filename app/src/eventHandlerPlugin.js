@@ -9,20 +9,21 @@ module.exports = function(coqueue, eventHandlerWorkflow, co) {
             co(function*() {
                 while (true) {
                     var value = yield this.queue.next();
-                    console.log('==========enter=========');
-                    console.log('enter');
-                    console.log('==========ENDenter=========');
 
-                    var isIdempotent = handlerReturn(yield value.handlerBase.checkIdempotency(value.event));
+                    var isIdempotent = this.handlerReturn(yield value.handlerBase.checkIdempotency(value.event));
+                    console.log('==========isIdempotent=========');
+                    console.log(isIdempotent);
+                    console.log('==========ENDisIdempotent=========');
 
-                    var eventHandled = handlerReturn(yield value.handlerBase.wrapHandlerFunction(handlerFunction, isIdempotent));
+                    var eventHandled = isIdempotent === true ? this.handlerReturn(yield value.handlerBase.wrapHandlerFunction(value.event,value.handlerFunction)):'';
+                    console.log('==========eventHandled=========');
+                    console.log(eventHandled);
+                    console.log('==========ENDeventHandled=========');
+                    var recordEventProcessed = this.handlerReturn(yield value.handlerBase.wrapRecordEventProcessed(value.event));
+                    console.log('==========recordEventProcessed=========');
+                    console.log(recordEventProcessed);
+                    console.log('==========ENDrecordEventProcessed=========');
 
-                    var recordEventProcessed = handlerReturn(yield value.handlerBase.wrapRecordEventProcessed(value.event));
-
-                    console.log('==========exit=========');
-                    console.log('exit');
-                    console.log('==========ENDexit=========');
-                    console.log(fu);
                 }
             }.bind(this)).catch(function(err) {
                 console.log('==========err=========');
@@ -30,13 +31,13 @@ module.exports = function(coqueue, eventHandlerWorkflow, co) {
                 console.log('==========ENDerr=========');
             });
         }
-
         handlerReturn( result ) {
+
             if(!result){
-                throw(new Exception( "function failed to complete."))
+                throw(new Error( "function failed to complete."))
             }
             if(result.success === false && errorLevel === 'severe'){
-                throw(new Exception(result.message));
+                throw(new Error(result.message));
             }
 
             if(result.success === false && errorLevel === 'low'){
@@ -48,13 +49,14 @@ module.exports = function(coqueue, eventHandlerWorkflow, co) {
         }
 
         handleEvent(event) {
-            var handlerBase = eventHandlerWorkflow(this.handlerName, this[event.eventName]);
-            console.log('==========handlerBase=========');
-            console.log(handlerBase);
-            console.log('==========ENDhandlerBase=========');
+            var handlerFunction = this[event.eventName];
+            var handlerBase = eventHandlerWorkflow(this.handlerName, handlerFunction);
+
             this.queue.push({
                 event,
-                handlerBase
+                handlerBase,
+                handlerFunction
+
             });
         }
     };
