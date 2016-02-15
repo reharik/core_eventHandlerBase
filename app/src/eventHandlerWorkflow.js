@@ -16,7 +16,7 @@ module.exports = function(readstorerepository,
         var fh = appfuncs.functionalHelpers;
         var Future  = _fantasy.Future;
 
-
+        //ifNotIdemotent:: bool -> JSON
         var ifNotIdemotent = x => x.getOrElse(false) !== true
             ? {
             success   : false,
@@ -34,7 +34,6 @@ module.exports = function(readstorerepository,
         //checkIfProcessed:: JSON -> Future<string|JSON>
         var checkIdempotency = (event,hName) => R.compose(R.map(ifNotIdemotent), R.map(isIdempotent), checkDbForIdempotency(hName))(event)
 
-
         // wrapHandlerFunction: JSON -> Future<string|JSON>
         var wrapHandlerFunction = R.curry((e, f) => {
             return f(e) === 'success'
@@ -42,11 +41,8 @@ module.exports = function(readstorerepository,
                 : Future.reject({success:false, errorLevel:'severe', message:'event handler was unable to complete process'});
         });
 
-        //wrapRecordEventProcessed  bool -> Future<string|JSON>
-        var recordEventProcessed = (e,h) =>  readstorerepository.recordEventProcessed(fh.getSafeValue('originalPosition', e), h);
-
-        //application  JSON -> Future<string|JSON>
-        //var application = R.compose(R.chain(wrapRecordEventProcessed), R.chain(wrapHandlerFunction(handlerFunction)), checkIdempotency);
+        //recordEventProcessed  bool -> Future<string|JSON>
+        var recordEventProcessed = (event,hName) =>  readstorerepository.recordEventProcessed(fh.getSafeValue('originalPosition', event), hName);
 
         //notification  string -> string -> Future<string|JSON>
         var notification = R.curry((x,y) => {
@@ -89,11 +85,11 @@ module.exports = function(readstorerepository,
 
         return {
             checkIdempotency,
+            wrapHandlerFunction,
+            recordEventProcessed,
             notification,
             dispatchSuccess,
-            dispatchFailure,
-            wrapHandlerFunction,
-            recordEventProcessed
+            dispatchFailure
         }
     }
 };
