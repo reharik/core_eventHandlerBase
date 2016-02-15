@@ -6,20 +6,22 @@ module.exports = function(coqueue, eventHandlerWorkflow, co) {
         constructor() {
             this.queue       = new coqueue();
             this.handlerName = '';
+            this.workflow = eventHandlerWorkflow();
+
             co(function*() {
                 while (true) {
                     var value = yield this.queue.next();
 
-                    var isIdempotent = this.handlerReturn(yield value.handlerBase.checkIdempotency(value.event));
+                    var isIdempotent = this.handlerReturn(yield this.workflow.checkIdempotency(value.event, this.handlerName));
                     console.log('==========isIdempotent=========');
                     console.log(isIdempotent);
                     console.log('==========ENDisIdempotent=========');
 
-                    var eventHandled = isIdempotent === true ? this.handlerReturn(yield value.handlerBase.wrapHandlerFunction(value.event,value.handlerFunction)):'';
+                    var eventHandled = isIdempotent === true ? this.handlerReturn(yield this.workflow.wrapHandlerFunction(value.event,value.handlerFunction)):'';
                     console.log('==========eventHandled=========');
                     console.log(eventHandled);
                     console.log('==========ENDeventHandled=========');
-                    var recordEventProcessed = this.handlerReturn(yield value.handlerBase.wrapRecordEventProcessed(value.event));
+                    var recordEventProcessed = isIdempotent === true ? this.handlerReturn(yield this.workflow.recordEventProcessed(value.event, this.handlerName)):'';
                     console.log('==========recordEventProcessed=========');
                     console.log(recordEventProcessed);
                     console.log('==========ENDrecordEventProcessed=========');
@@ -36,27 +38,23 @@ module.exports = function(coqueue, eventHandlerWorkflow, co) {
             if(!result){
                 throw(new Error( "function failed to complete."))
             }
-            if(result.success === false && errorLevel === 'severe'){
+            if(result.success === false && result.errorLevel === 'severe'){
                 throw(new Error(result.message));
             }
 
-            if(result.success === false && errorLevel === 'low'){
+            if(result.success === false && result.errorLevel === 'low'){
                 // actually log please
                 console.log(result.message);
-                return;
+                return result.message;
             }
             return result;
         }
 
         handleEvent(event) {
             var handlerFunction = this[event.eventName];
-            var handlerBase = eventHandlerWorkflow(this.handlerName, handlerFunction);
-
             this.queue.push({
                 event,
-                handlerBase,
                 handlerFunction
-
             });
         }
     };

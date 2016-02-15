@@ -16,25 +16,24 @@ module.exports = function(readstorerepository,
         var fh = appfuncs.functionalHelpers;
         var Future  = _fantasy.Future;
 
-        //checkDbForIdempotency  JSON -> Future<string|JSON>
-        var checkDbForIdempotency=  e => readstorerepository.checkIdempotency(fh.getSafeValue('originalPosition', e), handlerName);
 
-        //checkIfProcessed:: JSON -> Future<string|JSON>
-        var checkIdempotency = e => {
-            //var check = checkDbForIdempotency(e);
-            return isIdempotent(checkDbForIdempotency(e))
-                .map(x=> x == true ?
-                    Future.reject({
-                        success   : false,
-                        errorLevel: 'low',
-                        message   : "item has already been processed"
-                    })
-                    : Future.of(e));
-        };
-
+        var ifNotIdemotent = x => x.getOrElse(false) !== true
+            ? {
+            success   : false,
+            errorLevel: 'low',
+            message   : "item has already been processed"
+        }
+            : x.getOrElse(false);
 
         //isIdempotent:: JSON -> bool
-        var isIdempotent = R.compose(R.chain(R.lift(R.equals(true))), R.map(fh.safeProp('isIdempotent')));
+        var isIdempotent = R.compose(R.lift(R.equals(true)), fh.safeProp('isIdempotent'));
+
+        //checkDbForIdempotency  JSON -> Future<string|JSON>
+        var checkDbForIdempotency=  R.curry((hName,event) => readstorerepository.checkIdempotency(fh.getSafeValue('originalPosition', event), hName));
+
+        //checkIfProcessed:: JSON -> Future<string|JSON>
+        var checkIdempotency = (event,hName) => R.compose(R.map(ifNotIdemotent), R.map(isIdempotent), checkDbForIdempotency(hName))(event)
+
 
         // wrapHandlerFunction: JSON -> Future<string|JSON>
         var wrapHandlerFunction = R.curry((e, f) => {
@@ -44,10 +43,10 @@ module.exports = function(readstorerepository,
         });
 
         //wrapRecordEventProcessed  bool -> Future<string|JSON>
-        var wrapRecordEventProcessed = e => { readstorerepository.recordEventProcessed(fh.getSafeValue(e,'originalPosition'), handlerName)};
+        var recordEventProcessed = (e,h) =>  readstorerepository.recordEventProcessed(fh.getSafeValue('originalPosition', e), h);
 
         //application  JSON -> Future<string|JSON>
-        var application = R.compose(R.chain(wrapRecordEventProcessed), R.chain(wrapHandlerFunction(handlerFunction)), checkIdempotency);
+        //var application = R.compose(R.chain(wrapRecordEventProcessed), R.chain(wrapHandlerFunction(handlerFunction)), checkIdempotency);
 
         //notification  string -> string -> Future<string|JSON>
         var notification = R.curry((x,y) => {
@@ -85,7 +84,7 @@ module.exports = function(readstorerepository,
         var dispatchFailure = R.compose(append, notification('Failure'));
 
         Future.prototype.then = function(res,rej){
-            return this.fork(e => res(e), r => res(r))
+            return this.fork(e => res(e), r => { res(r)})
         };
 
         return {
@@ -93,7 +92,8 @@ module.exports = function(readstorerepository,
             notification,
             dispatchSuccess,
             dispatchFailure,
-            application
+            wrapHandlerFunction,
+            recordEventProcessed
         }
     }
 };
