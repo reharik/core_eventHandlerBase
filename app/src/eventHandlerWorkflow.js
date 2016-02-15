@@ -22,13 +22,19 @@ module.exports = function(readstorerepository,
         //checkIfProcessed:: JSON -> Future<string|JSON>
         var checkIdempotency = e => {
             //var check = checkDbForIdempotency(e);
-            return isIdempotent(checkDbForIdempotency(e)) === true
-                ? Future.of(e)
-                : Future.reject({success:false, errorLevel:'low', message:"item has already been processed"});
+            return isIdempotent(checkDbForIdempotency(e))
+                .map(x=> x == true ?
+                    Future.reject({
+                        success   : false,
+                        errorLevel: 'low',
+                        message   : "item has already been processed"
+                    })
+                    : Future.of(e));
         };
 
+
         //isIdempotent:: JSON -> bool
-        var isIdempotent = R.compose(R.chain(R.equals(true)), fh.safeProp('isIdempotent'));
+        var isIdempotent = R.compose(R.chain(R.lift(R.equals(true))), R.map(fh.safeProp('isIdempotent')));
 
         // wrapHandlerFunction: JSON -> Future<string|JSON>
         var wrapHandlerFunction = R.curry((e, f) => {

@@ -12,7 +12,13 @@ module.exports = function(coqueue, eventHandlerWorkflow, co) {
                     console.log('==========enter=========');
                     console.log('enter');
                     console.log('==========ENDenter=========');
-                    var fu    = yield value.handlerBase.application(value.event);
+
+                    var isIdempotent = handlerReturn(yield value.handlerBase.checkIdempotency(value.event));
+
+                    var eventHandled = handlerReturn(yield value.handlerBase.wrapHandlerFunction(handlerFunction, isIdempotent));
+
+                    var recordEventProcessed = handlerReturn(yield value.handlerBase.wrapRecordEventProcessed(value.event));
+
                     console.log('==========exit=========');
                     console.log('exit');
                     console.log('==========ENDexit=========');
@@ -23,6 +29,22 @@ module.exports = function(coqueue, eventHandlerWorkflow, co) {
                 console.log(err);
                 console.log('==========ENDerr=========');
             });
+        }
+
+        handlerReturn( result ) {
+            if(!result){
+                throw(new Exception( "function failed to complete."))
+            }
+            if(result.success === false && errorLevel === 'severe'){
+                throw(new Exception(result.message));
+            }
+
+            if(result.success === false && errorLevel === 'low'){
+                // actually log please
+                console.log(result.message);
+                return;
+            }
+            return result;
         }
 
         handleEvent(event) {
