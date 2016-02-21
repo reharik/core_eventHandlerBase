@@ -36,8 +36,8 @@ module.exports = function(readstorerepository,
 
         // wrapHandlerFunction: JSON -> Future<string|JSON>
         var wrapHandlerFunction = R.curry((e, f) => {
-            return f(e) === 'success'
-                ? Future.of(fh.getSafeValue('data', e))
+            return f(fh.getSafeValue('data', e)) === 'success'
+                ? Future.of(e)
                 : Future.reject({success:false, errorLevel:'severe', message:'event handler was unable to complete process'});
         });
 
