@@ -32,7 +32,7 @@ module.exports = function(readstorerepository,
         var checkDbForIdempotency=  R.curry((hName,event) => readstorerepository.checkIdempotency(fh.getSafeValue('originalPosition', event), hName));
 
         //checkIfProcessed:: JSON -> Future<string|JSON>
-        var checkIdempotency = (event,hName) => R.compose(R.map(ifNotIdemotent), R.map(isIdempotent), checkDbForIdempotency(hName))(event)
+        var checkIdempotency = (event,hName) => R.compose(R.map(ifNotIdemotent), R.map(isIdempotent), checkDbForIdempotency(hName))(event);
 
         // wrapHandlerFunction: JSON -> Future<string|JSON>
         var wrapHandlerFunction = R.curry((e, f) => {

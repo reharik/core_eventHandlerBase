@@ -1,7 +1,7 @@
 "use strict";
 
 
-module.exports = function(coqueue, eventHandlerWorkflow, co) {
+module.exports = function(coqueue, eventHandlerWorkflow, logger, co) {
     return class eventHandlerBase {
         constructor() {
             this.queue       = new coqueue();
@@ -11,30 +11,22 @@ module.exports = function(coqueue, eventHandlerWorkflow, co) {
             co(function*() {
                 while (true) {
                     var value = yield this.queue.next();
-
+                    logger.trace(this.handlerName + ' ' + value);
                     var isIdempotent = this.handlerReturn(yield this.workflow.checkIdempotency(value.event, this.handlerName));
-                    console.log('==========isIdempotent=========');
-                    console.log(isIdempotent);
-                    console.log('==========ENDisIdempotent=========');
+                    logger.trace('message for ' + this.handlerName + ' isIdempotent ' + isIdempotent);
 
                     var eventHandled = isIdempotent === true ? this.handlerReturn(yield this.workflow.wrapHandlerFunction(value.event,value.handlerFunction)):'';
-                    console.log('==========eventHandled=========');
-                    console.log(eventHandled);
-                    console.log('==========ENDeventHandled=========');
-                    var recordEventProcessed = isIdempotent === true ? this.handlerReturn(yield this.workflow.recordEventProcessed(value.event, this.handlerName)):'';
-                    console.log('==========recordEventProcessed=========');
-                    console.log(recordEventProcessed);
-                    console.log('==========ENDrecordEventProcessed=========');
+                    logger.trace('message for ' + this.handlerName + ' was handled ' + eventHandled);
 
+                    var recordEventProcessed = isIdempotent === true ? this.handlerReturn(yield this.workflow.recordEventProcessed(value.event, this.handlerName)):'';
+                    logger.trace('message for ' + this.handlerName + ' recorded as processed ' + recordEventProcessed);
                 }
             }.bind(this)).catch(function(err) {
-                console.log('==========err=========');
-                console.log(err);
-                console.log('==========ENDerr=========');
+                logger.error(this.handlerName + ' threw error ' + err);
             });
         }
-        handlerReturn( result ) {
 
+        handlerReturn( result ) {
             if(!result){
                 throw(new Error( "function failed to complete."))
             }
@@ -43,8 +35,7 @@ module.exports = function(coqueue, eventHandlerWorkflow, co) {
             }
 
             if(result.success === false && result.errorLevel === 'low'){
-                // actually log please
-                console.log(result.message);
+                logger.error(this.handlerName + ' return this result for message ' + result.message);
                 return result.message;
             }
             return result;
@@ -58,4 +49,4 @@ module.exports = function(coqueue, eventHandlerWorkflow, co) {
             });
         }
     };
-}
+};
