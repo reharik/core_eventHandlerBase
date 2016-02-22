@@ -11,7 +11,7 @@ module.exports = function(coqueue, eventHandlerWorkflow, logger, co) {
             co(function*() {
                 while (true) {
                     var value = yield this.queue.next();
-                    logger.trace(this.handlerName + ' ' + value);
+                    logger.trace(this.handlerName + ' ' + value.event);
                     var isIdempotent = this.handlerReturn(yield this.workflow.checkIdempotency(value.event, this.handlerName));
                     logger.trace('message for ' + this.handlerName + ' isIdempotent ' + isIdempotent);
 

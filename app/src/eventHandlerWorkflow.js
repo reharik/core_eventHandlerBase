@@ -9,9 +9,10 @@ module.exports = function(readstorerepository,
                           R,
                           _fantasy,
                           uuid,
-                          buffer) {
+                          buffer,
+                          co, logger) {
 
-    return function(handlerName, handlerFunction){
+    return function(){
         var ef = appfuncs.eventFunctions;
         var fh = appfuncs.functionalHelpers;
         var Future  = _fantasy.Future;
@@ -34,12 +35,16 @@ module.exports = function(readstorerepository,
         //checkIfProcessed:: JSON -> Future<string|JSON>
         var checkIdempotency = (event,hName) => R.compose(R.map(ifNotIdemotent), R.map(isIdempotent), checkDbForIdempotency(hName))(event);
 
-        // wrapHandlerFunction: JSON -> Future<string|JSON>
-        var wrapHandlerFunction = R.curry((e, f) => {
-            return f(fh.getSafeValue('data', e)) === 'success'
-                ? Future.of(e)
-                : Future.reject({success:false, errorLevel:'severe', message:'event handler was unable to complete process'});
-        });
+        var wrapHandlerFunction = (e, f) =>
+            co(f(fh.getSafeValue('data', e)))
+                .catch(function(err) {
+                    logger.error('error thrown: ' + err);
+                    return {
+                        success   : false,
+                        errorLevel: 'severe',
+                        message   : 'event handler was unable to complete process: ' + err
+                    };
+                });
 
         //recordEventProcessed  bool -> Future<string|JSON>
         var recordEventProcessed = (event,hName) =>  readstorerepository.recordEventProcessed(fh.getSafeValue('originalPosition', event), hName);
