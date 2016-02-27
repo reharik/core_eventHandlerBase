@@ -17,9 +17,9 @@ module.exports = function(coqueue, eventHandlerWorkflow, logger, co) {
 
                     if(isIdempotent === true){
                         this.handlerReturn(yield this.workflow.wrapHandlerFunction(value.event,value.handlerFunction));
-                        logger.trace('message for ' + this.handlerName + ' was handled ' + eventHandled);
+                        logger.trace('message for ' + this.handlerName + ' was handled ' + value.event.eventName);
                         this.handlerReturn(yield this.workflow.recordEventProcessed(value.event, this.handlerName));
-                        logger.trace('message for ' + this.handlerName + ' recorded as processed ' + recordEventProcessed);
+                        logger.trace('message for ' + this.handlerName + ' recorded as processed ' + value.event.eventName);
                         fh.dispatchSuccess(value.event, 'event processed successfully');
                     }
                 }
@@ -28,7 +28,6 @@ module.exports = function(coqueue, eventHandlerWorkflow, logger, co) {
                 logger.error(this.handlerName + ' threw error ' + err);
             });
         }
-
 
         handlerReturn( result ) {
             if(!result){
