@@ -50,24 +50,21 @@ module.exports = function(readstorerepository,
         var recordEventProcessed = (event,hName) =>  readstorerepository.recordEventProcessed(fh.getSafeValue('originalPosition', event), hName);
 
         //notification  string -> string -> Future<string|JSON>
-        var notification = R.curry((x,y) => {
-            var data = {
-                result:y,
-                message: x,
-                initialEvent:event
+        var notification = R.curry((e,y,x) => {
+            var data     = {
+                result      : y,
+                message     : x,
+                initialEvent: e
             };
             var metadata = {
-                continuationId: event.continuationId,
-                eventName :event.eventName,
-                streamType :event.eventName
+                continuationId: e.continuationId,
+                eventName     : e.eventName,
+                streamType    : e.eventName
             };
-            notification =  {
-                EventId : uuid.v4(),
-                Type    : 'notification',
-                IsJson  : true,
-                // put this in a method on fh
-                Data    : new buffer.Buffer(JSON.stringify(data)),
-                Metadata: new buffer.Buffer(JSON.stringify(metadata))
+            notification = {
+                eventName: 'notification',
+                data,
+                metadata
             };
             return {
                 expectedVersion: -2,
@@ -79,10 +76,10 @@ module.exports = function(readstorerepository,
         var append = R.curry((x) => eventstore.appendToStreamPromise('notification',x));
 
         //dispatchSuccess  JSON -> Future<string|JSON>
-        var dispatchSuccess = R.compose(append, notification('Success'));
+        var dispatchSuccess = (event,message) => R.compose(append, notification(event,'Success'))(message);
 
         //dispatchFailure  JSON -> Future<string|JSON>
-        var dispatchFailure = R.compose(append, notification('Failure'));
+        var dispatchFailure = (event,message) => R.compose(append, notification(event,'Failure'))(message);
 
         Future.prototype.then = function(res,rej){
             return this.fork(e => res(e), r => { res(r)})

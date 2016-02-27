@@ -15,16 +15,20 @@ module.exports = function(coqueue, eventHandlerWorkflow, logger, co) {
                     var isIdempotent = this.handlerReturn(yield this.workflow.checkIdempotency(value.event, this.handlerName));
                     logger.trace('message for ' + this.handlerName + ' isIdempotent ' + isIdempotent);
 
-                    var eventHandled = isIdempotent === true ? this.handlerReturn(yield this.workflow.wrapHandlerFunction(value.event,value.handlerFunction)):'';
-                    logger.trace('message for ' + this.handlerName + ' was handled ' + eventHandled);
-
-                    var recordEventProcessed = isIdempotent === true ? this.handlerReturn(yield this.workflow.recordEventProcessed(value.event, this.handlerName)):'';
-                    logger.trace('message for ' + this.handlerName + ' recorded as processed ' + recordEventProcessed);
+                    if(isIdempotent === true){
+                        this.handlerReturn(yield this.workflow.wrapHandlerFunction(value.event,value.handlerFunction));
+                        logger.trace('message for ' + this.handlerName + ' was handled ' + eventHandled);
+                        this.handlerReturn(yield this.workflow.recordEventProcessed(value.event, this.handlerName));
+                        logger.trace('message for ' + this.handlerName + ' recorded as processed ' + recordEventProcessed);
+                        fh.dispatchSuccess(value.event, 'event processed successfully');
+                    }
                 }
             }.bind(this)).catch(function(err) {
+                fh.dispatchFailure(value.event, 'event failed: '+err);
                 logger.error(this.handlerName + ' threw error ' + err);
             });
         }
+
 
         handlerReturn( result ) {
             if(!result){
