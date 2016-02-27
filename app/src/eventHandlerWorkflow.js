@@ -76,10 +76,10 @@ module.exports = function(readstorerepository,
         var append = R.curry((x) => eventstore.appendToStreamPromise('notification',x));
 
         //dispatchSuccess  JSON -> Future<string|JSON>
-        var dispatchSuccess = (event,message) => R.compose(append, notification(event,'Success'))(message);
+        var dispatchSuccess = (event,message) => append(notification(event,'Success', message));
 
         //dispatchFailure  JSON -> Future<string|JSON>
-        var dispatchFailure = (event,message) => R.compose(append, notification(event,'Failure'))(message);
+        var dispatchFailure = (event,message) => append(notification(event,'Failure', message));
 
         Future.prototype.then = function(res,rej){
             return this.fork(e => res(e), r => { res(r)})

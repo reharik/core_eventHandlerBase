@@ -20,13 +20,14 @@ module.exports = function(coqueue, eventHandlerWorkflow, logger, co) {
                         logger.trace('message for ' + this.handlerName + ' was handled ' + value.event.eventName);
                         this.handlerReturn(yield this.workflow.recordEventProcessed(value.event, this.handlerName));
                         logger.trace('message for ' + this.handlerName + ' recorded as processed ' + value.event.eventName);
-                        fh.dispatchSuccess(value.event, 'event processed successfully');
+                        this.handlerReturn(yield this.workflow.dispatchSuccess(value.event, 'event processed successfully'));
+                        logger.trace('message for ' + this.handlerName + ' notification disaptched');
                     }
                 }
             }.bind(this)).catch(function(err) {
-                fh.dispatchFailure(value.event, 'event failed: '+err);
                 logger.error(this.handlerName + ' threw error ' + err);
-            });
+                this.workflow.dispatchFailure(value.event, 'event failed: '+err);
+            }.bind(this));
         }
 
         handlerReturn( result ) {
