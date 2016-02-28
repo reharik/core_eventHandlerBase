@@ -68,7 +68,7 @@ module.exports = function(readstorerepository,
             };
             return {
                 expectedVersion: -2,
-                events         : [notification]
+                events         : [fh.outGoingEvent(notification)]
             }
         });
 
