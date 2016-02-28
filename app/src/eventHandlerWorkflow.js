@@ -58,8 +58,8 @@ module.exports = function(readstorerepository,
             };
             var metadata = {
                 continuationId: e.continuationId,
-                eventName     : e.eventName,
-                streamType    : e.eventName
+                eventName     : 'notification',
+                streamType    : 'notification'
             };
             notification = {
                 eventName: 'notification',
@@ -68,7 +68,7 @@ module.exports = function(readstorerepository,
             };
             return {
                 expectedVersion: -2,
-                events         : [fh.outGoingEvent(notification)]
+                events         : [ef.outGoingEvent(notification)]
             }
         });
 
