@@ -36,6 +36,7 @@ module.exports = function(readstorerepository,
         var checkIdempotency = (event,hName) => R.compose(R.map(ifNotIdemotent), R.map(isIdempotent), checkDbForIdempotency(hName))(event);
 
         var wrapHandlerFunction = (e, f) => {
+            var contLens = R.lensProp('continuationId');
             var continuationId = R.view(contLens, fh.getSafeValue('metadata', e));
             co(f(fh.getSafeValue('data', e), continuationId))
                 .catch(function(err) {
