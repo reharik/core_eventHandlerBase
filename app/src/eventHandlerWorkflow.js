@@ -35,8 +35,9 @@ module.exports = function(readstorerepository,
         //checkIfProcessed:: JSON -> Future<string|JSON>
         var checkIdempotency = (event,hName) => R.compose(R.map(ifNotIdemotent), R.map(isIdempotent), checkDbForIdempotency(hName))(event);
 
-        var wrapHandlerFunction = (e, f) =>
-            co(f(fh.getSafeValue('data', e)))
+        var wrapHandlerFunction = (e, f) => {
+            var continuationId = R.view(contLens, fh.getSafeValue('metadata', e));
+            co(f(fh.getSafeValue('data', e), continuationId))
                 .catch(function(err) {
                     logger.error('error thrown: ' + err);
                     return {
@@ -45,6 +46,7 @@ module.exports = function(readstorerepository,
                         message   : 'event handler was unable to complete process: ' + err
                     };
                 });
+        };
 
         //recordEventProcessed  bool -> Future<string|JSON>
         var recordEventProcessed = (event,hName) =>  readstorerepository.recordEventProcessed(fh.getSafeValue('originalPosition', event), hName);
@@ -57,7 +59,7 @@ module.exports = function(readstorerepository,
                 initialEvent: e
             };
             var metadata = {
-                continuationId: e.continuationId,
+                continuationId: e.continuationId || null,
                 eventName     : 'notification',
                 streamType    : 'notification'
             };
